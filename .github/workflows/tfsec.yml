@@ -1,0 +1,10 @@
+name: tfsec
+on: [push]
+jobs:
+  run-tfsec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.3.1
