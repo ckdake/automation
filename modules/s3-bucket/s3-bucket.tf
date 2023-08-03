@@ -33,5 +33,33 @@ resource "aws_s3_bucket_logging" "bucket" {
     bucket = aws_s3_bucket.bucket.id
 
     target_bucket = var.logging_bucket_name
-    target_prefix = "aws/s3/log/"
+    target_prefix = "AWSLogs/"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
+  bucket = aws_s3_bucket.bucket.id
+
+  rule {
+    id = "rule-1"
+
+    filter {
+      prefix = "AWSLogs/"
+    }
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+
+    expiration {
+      days = 365
+    }
+
+    status = "Enabled"
+  }
 }

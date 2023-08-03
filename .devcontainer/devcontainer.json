@@ -10,21 +10,47 @@
 			"version": "latest",
 			"tflint": "latest",
 			"terragrunt": "latest"
+		},
+		"ghcr.io/devcontainers/features/aws-cli:1": {
+			"version": "latest"
 		}
-	}
-
+	},
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt",
-
+	"postCreateCommand": "/workspaces/automation/.devcontainer/post-create.sh",
 	// Configure tool-specific properties.
-	// "customizations": {},
-
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"[terraform]": {
+					"editor.defaultFormatter": "hashicorp.terraform",
+					"editor.formatOnSave": true,
+					"editor.formatOnSaveMode": "file"
+				},
+				"[terraform-vars]": {
+					"editor.defaultFormatter": "hashicorp.terraform",
+					"editor.formatOnSave": true,
+					"editor.formatOnSaveMode": "file"
+				},
+				"editor.codeActionsOnSave": {
+					"source.fixAll.shellcheck": true
+				},
+				"python.linting.flake8Enabled": true,
+				"python.formatting.provider": "black",
+				"editor.formatOnSave": true
+			},
+			"extensions": [
+				"DavidAnson.vscode-markdownlint",
+				"hashicorp.terraform",
+				"tfsec.tfsec",
+				"timonwong.shellcheck",
+				"redhat.vscode-yaml"
+			]
+		}
+	}
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
 }
