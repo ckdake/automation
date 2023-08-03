@@ -47,7 +47,8 @@
 				"hashicorp.terraform",
 				"tfsec.tfsec",
 				"timonwong.shellcheck",
-				"redhat.vscode-yaml"
+				"redhat.vscode-yaml",
+				"infracost.infracost"
 			]
 		}
 	}
