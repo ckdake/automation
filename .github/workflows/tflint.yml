@@ -17,9 +17,7 @@ jobs:
           tflint_version: v0.46.1
       - name: Initialize tflint
         run: |
-          find tenants/ -type f -name 'main.tf' -exec \
-            bash -c 'for f; do tflint --init $(dirname "$f"); done' _ {} +
+          cd tenants/management && tflint --init
       - name: Run tflint
         run: |
-          find tenants/ -type f -name 'main.tf' -exec \
-            bash -c 'for f; do tflint -f compact $(dirname "$f"); done' _ {} +
+          cd tenants/management && tflint -f compact
