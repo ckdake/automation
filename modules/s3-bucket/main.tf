@@ -10,5 +10,15 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-east-1"
+  region = "us-east-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::053562908965:role/administrator"
+  }
+
+  default_tags {
+    tags = {
+      ManagedBy = "terraform"
+    }
+  }
 }
