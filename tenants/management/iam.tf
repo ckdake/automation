@@ -1,3 +1,15 @@
+resource "aws_iam_account_password_policy" "strict" {
+  minimum_password_length        = 32
+  require_lowercase_characters   = true
+  require_numbers                = true
+  require_uppercase_characters   = true
+  require_symbols                = true
+  allow_users_to_change_password = true
+
+  password_reuse_prevention = 24
+  max_password_age          = 90
+}
+
 # Role to be used for any administrative tasks
 data "aws_iam_policy_document" "administrator_assume_role_policy" {
   statement {
@@ -21,6 +33,8 @@ resource "aws_iam_role_policy_attachment" "administrator_gets_administrator" {
 }
 
 # Group of users allowed to assume the administrator role
+# TODO(ckdake): figure out the right way to enforce MFA with auth pattern
+# tfsec:ignore:aws-iam-enforce-group-mfa
 resource "aws_iam_group" "administrators" {
   name = "administrators"
 }
@@ -43,7 +57,7 @@ resource "aws_iam_policy" "admin_assumption" {
       {
         Effect   = "Allow",
         Action   = "sts:AssumeRole",
-        Resource = "${aws_iam_role.administrator.arn}"
+        Resource = aws_iam_role.administrator.arn
     }]
   })
 }
