@@ -2,7 +2,7 @@
 
 ## Terraform for AWS plaground
 
-This requires env vars with root credentials for the root account.
+This requires env vars with user credentials that can assume to adminstrator.
 
 ```
 export AWS_ACCESS_KEY_ID=
