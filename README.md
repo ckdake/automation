@@ -10,6 +10,5 @@ This requires env vars with root credentials for the root account.
 - [] saml2aws for logging in, what to use for IdP?
 - [] import everything in root account, test1 account, test2 account
 - [] get some securityhub things passing
-- [] set up dependabot for terraform providers
 - [] setup github actions for terraform plan, terraform apply
 - [] lots more

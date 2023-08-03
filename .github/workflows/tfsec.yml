@@ -3,8 +3,13 @@ on: [push]
 jobs:
   run-tfsec:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: tfsec
         uses: aquasecurity/tfsec-pr-commenter-action@v1.3.1
+        with:
+          github_token: ${{ github.token }}
