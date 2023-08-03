@@ -19,4 +19,5 @@ Currently only works in tenants/management with `terraform apply`.
 - [] get some securityhub things passing
 - [] setup github actions for terraform plan, terraform apply
 - [] terraform plugin caching
+- [] Setup AWS Config
 - [] lots more
