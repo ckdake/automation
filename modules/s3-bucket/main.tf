@@ -12,11 +12,3 @@ terraform {
 provider "aws" {
   region  = "us-east-1"
 }
-
-variable "bucket_name" {
-    type = string
-}
-
-resource "aws_s3_bucket" "bucket" {
-    bucket = var.bucket_name
-}
