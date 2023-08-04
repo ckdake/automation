@@ -2,10 +2,19 @@
 
 ## Terraform for AWS plaground
 
+The goal of this AWS setup is to have an automated AWS Organization set up that:
+
+1. Is fully compliant with SOC2
+1. Is fully compliant with AWS, CIS, and NIST security standards.
+1. Has minimal AWS cost overhead
+1. Facilitates easily testing out things in AWS test accounts
+
+### Running locally
+
 This requires env vars with user credentials that can assume to adminstrator.
 If `aws sts get-caller-identity` works, you are good, otherwise:
 
-```
+```bash
 export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=
 ```
