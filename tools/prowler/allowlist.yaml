@@ -1,0 +1,10 @@
+# See https://docs.prowler.cloud/en/latest/tutorials/allowlist/
+Allowlist:
+  Accounts:
+    "*":
+      Checks:
+        "fake_check":
+          Regions:
+            - "*"
+          Resources:
+            - "fake-resource"

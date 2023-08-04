@@ -31,3 +31,10 @@ provider "aws" {
     }
   }
 }
+
+module "compliant-account" {
+  source = "../../modules/compliant-account"
+
+  administrator_role_arn = aws_iam_role.administrator.arn
+  kms_key_arn            = aws_kms_key.management.arn
+}
