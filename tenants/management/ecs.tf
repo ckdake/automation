@@ -22,8 +22,8 @@ module "sample_vpc" {
 module "sample_service" {
   source = "../../modules/ecs-service"
 
-  ecr_artifact    = module.sample_repository.repository_arn
-  ecs_cluster_arn = module.sample_cluster.cluster_arn
+  ecr_artifact   = module.sample_repository.repository_arn
+  ecs_cluster_id = module.sample_cluster.cluster_id
 
   service_name       = "sample-app"
   pull_policy_arn    = module.sample_repository.pull_policy_arn

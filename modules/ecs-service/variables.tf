@@ -2,7 +2,7 @@ variable "ecr_artifact" {
   type = string
 }
 
-variable "ecs_cluster_arn" {
+variable "ecs_cluster_id" {
   type = string
 }
 

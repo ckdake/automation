@@ -28,12 +28,14 @@ resource "aws_ecs_task_definition" "task" {
 }
 
 resource "aws_ecs_service" "service" {
-  name                = var.service_name
-  cluster             = var.ecs_cluster_arn
-  task_definition     = aws_iam_role.task_role.arn
-  desired_count       = 0
-  launch_type         = "FARGATE"
-  scheduling_strategy = "REPLICA"
+  name                    = var.service_name
+  cluster                 = var.ecs_cluster_id
+  task_definition         = aws_ecs_task_definition.task.arn
+  desired_count           = 0
+  launch_type             = "FARGATE"
+  scheduling_strategy     = "REPLICA"
+  wait_for_steady_state   = false
+  enable_ecs_managed_tags = false
 
   network_configuration {
     assign_public_ip = false
@@ -52,4 +54,8 @@ resource "aws_ecs_service" "service" {
     enable   = true
     rollback = true
   }
+
+  depends_on = [
+    aws_iam_role_policy.task_execution_role
+  ]
 }
