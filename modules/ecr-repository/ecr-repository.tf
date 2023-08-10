@@ -89,6 +89,28 @@ resource "aws_ecr_lifecycle_policy" "repository" {
 EOF
 }
 
+resource "aws_iam_policy" "pull_artifacts" {
+  name        = "ecr-pull-${var.repository_name}-artifacts"
+  description = "allows pulling all the ${var.repository_name} artifacts"
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "AllowPull",
+        "Effect" : "Allow",
+        "Action" : [
+          "ecr:BatchGetImage",
+          "ecr:ListImages",
+          "ecr:GetDownloadUrlForLayer"
+        ],
+        "Resource" : [
+          aws_ecr_repository.repository.arn
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "push_artifacts" {
   name        = "ecr-push-${var.repository_name}-artifacts"
   description = "allows pushing all the ${var.repository_name} artifacts"
@@ -110,6 +132,26 @@ resource "aws_iam_policy" "push_artifacts" {
         ],
         "Resource" : [
           aws_ecr_repository.repository.arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "use_ecr" {
+  name        = "use-ecr"
+  description = "allows a role to use ECR. requires repo permissions separately"
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "GetAuthorizationToken",
+        "Effect" : "Allow",
+        "Action" : [
+          "ecr:GetAuthorizationToken"
+        ],
+        "Resource" : [
+          "*"
         ]
       }
     ]

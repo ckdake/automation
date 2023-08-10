@@ -12,7 +12,7 @@ module "sample_cluster" {
   cluster_name = "sample-cluster"
 }
 
-module "vpc" {
+module "sample_vpc" {
   source = "../../modules/vpc"
 
   vpc_name = "sample-vpc"
@@ -22,6 +22,27 @@ module "vpc" {
 module "sample_service" {
   source = "../../modules/ecs-service"
 
-  service_name = "sample-app"
-  vpc_id       = module.vpc.vpc_id
+  container_definitions = jsonencode([
+    {
+      name                   = "sample-app"
+      image                  = "latest"
+      cpu                    = 256
+      memory                 = 512
+      essential              = true
+      readonlyRootFilesystem = true
+      portMappings           = []
+      mountPoints            = []
+      volumesFrom            = []
+    }
+  ])
+
+  ecr_artifact    = module.sample_repository.repository_arn
+  ecs_cluster_arn = module.sample_cluster.cluster_arn
+
+  service_name       = "sample-app"
+  pull_policy_arn    = module.sample_repository.pull_policy_arn
+  use_ecr_policy_arn = module.sample_repository.use_ecr_policy_arn
+
+  vpc_id  = module.sample_vpc.vpc_id
+  subnets = module.sample_vpc.public_subnet_ips
 }
