@@ -1,4 +1,4 @@
-variable "vpc_cidr" {
+variable "vpc_cidr_prefix" {
   type = string
 }
 

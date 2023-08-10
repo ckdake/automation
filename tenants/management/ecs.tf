@@ -15,26 +15,12 @@ module "sample_cluster" {
 module "sample_vpc" {
   source = "../../modules/vpc"
 
-  vpc_name = "sample-vpc"
-  vpc_cidr = "10.0.0.0/16"
+  vpc_name        = "sample-vpc"
+  vpc_cidr_prefix = "10.0"
 }
 
 module "sample_service" {
   source = "../../modules/ecs-service"
-
-  container_definitions = jsonencode([
-    {
-      name                   = "sample-app"
-      image                  = "latest"
-      cpu                    = 256
-      memory                 = 512
-      essential              = true
-      readonlyRootFilesystem = true
-      portMappings           = []
-      mountPoints            = []
-      volumesFrom            = []
-    }
-  ])
 
   ecr_artifact    = module.sample_repository.repository_arn
   ecs_cluster_arn = module.sample_cluster.cluster_arn
@@ -44,5 +30,5 @@ module "sample_service" {
   use_ecr_policy_arn = module.sample_repository.use_ecr_policy_arn
 
   vpc_id  = module.sample_vpc.vpc_id
-  subnets = module.sample_vpc.public_subnet_ips
+  subnets = module.sample_vpc.public_subnet_ids
 }

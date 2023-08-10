@@ -1,5 +1,5 @@
 resource "aws_vpc" "vpc" {
-  cidr_block = var.vpc_cidr
+  cidr_block = "${var.vpc_cidr_prefix}.0.0/16"
 
   enable_dns_support   = true
   enable_dns_hostnames = true
@@ -17,9 +17,4 @@ resource "aws_default_route_table" "vpc" {
   default_route_table_id = aws_vpc.vpc.default_route_table_id
 }
 
-resource "aws_default_network_acl" "vpc" {
-  default_network_acl_id = aws_vpc.vpc.default_network_acl_id
-  tags = {
-    Name = "tenant-vpc-default-acl"
-  }
-}
+

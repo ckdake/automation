@@ -1,7 +1,3 @@
-variable "container_definitions" {
-  type = string
-}
-
 variable "ecr_artifact" {
   type = string
 }
@@ -15,7 +11,7 @@ variable "service_name" {
 }
 
 variable "subnets" {
-  type = string
+  type = set(string)
 }
 
 variable "pull_policy_arn" {
