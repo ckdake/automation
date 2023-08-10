@@ -9,6 +9,11 @@ The goal of this AWS setup is to have an automated AWS Organization set up that:
 1. Has minimal AWS cost overhead
 1. Facilitates easily testing out things in AWS test accounts
 
+Things to have readily available to be able to test other things:
+
+1. a docker container in ECR running as an ECS service
+1. lambdas triggered by EventBridge
+
 ### Running locally
 
 This requires env vars with user credentials that can assume to adminstrator.
