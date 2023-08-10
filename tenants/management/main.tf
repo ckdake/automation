@@ -32,7 +32,7 @@ provider "aws" {
   }
 }
 
-module "compliant-account" {
+module "compliant_account" {
   source = "../../modules/compliant-account"
 
   administrator_role_arn = aws_iam_role.administrator.arn
