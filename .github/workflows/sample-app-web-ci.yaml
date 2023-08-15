@@ -4,9 +4,11 @@ on:
   pull_request:
   push:
     paths:
-      - "tools/sample-app-web"
+      - ".github/workflows/sample-app-web-ci.yaml"
+      - "tools/sample-app-web/**"
 
-env: AWS_REGION="us-east-1"
+env:
+  AWS_REGION: "us-east-1"
 
 jobs:
   ci:
