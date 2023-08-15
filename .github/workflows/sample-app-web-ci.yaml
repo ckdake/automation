@@ -46,5 +46,4 @@ jobs:
           file: tools/sample-app-web/Dockerfile
           push: true
           # TODO(ckdake): tagging strategy! especially for main -vs- not main.
-          tags: |
-            ithought/sample-app:latest
+          tags: "${{ env.REGISTRY }}/${{ env.REPOSITORY }}:sample-app:latest"
