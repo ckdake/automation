@@ -2,15 +2,20 @@ name: sample-web-app CI
 
 on:
   pull_request:
-  push:
     paths:
-      - ".github/workflows/sample-app-web-ci.yaml"
-      - "tools/sample-app-web/**"
+      - .github/workflows/sample-app-web-ci.yaml
+      - tools/sample-app-web/**
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/sample-app-web-ci.yaml
+      - tools/sample-app-web/**
 
 env:
   AWS_REGION: us-east-1
   REGISTRY: 053562908965.dkr.ecr.us-east-1.amazonaws.com
-  REPOSITORY: ithought/sample-app
+  REPOSITORY: ithought/sample-app-web
   GITHUB_OIDC_ROLE: arn:aws:iam::053562908965:role/github-actions
   AWS_ROLE_SESSION_NAME: sample-app-web-ecr--push-session
 
@@ -42,4 +47,4 @@ jobs:
           push: true
           # TODO(ckdake): tagging strategy! especially for main -vs- not main.
           tags: |
-            "ithought/sample-app:latest"
+            ithought/sample-app:latest
