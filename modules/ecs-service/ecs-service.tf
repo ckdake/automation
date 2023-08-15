@@ -31,7 +31,7 @@ resource "aws_ecs_service" "service" {
   name                    = var.service_name
   cluster                 = var.ecs_cluster_id
   task_definition         = aws_ecs_task_definition.task.arn
-  desired_count           = 0
+  desired_count           = var.desired_count
   launch_type             = "FARGATE"
   scheduling_strategy     = "REPLICA"
   wait_for_steady_state   = false

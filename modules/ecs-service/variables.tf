@@ -1,3 +1,7 @@
+variable "desired_count" {
+  type = string
+}
+
 variable "ecr_artifact" {
   type = string
 }

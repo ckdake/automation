@@ -38,6 +38,8 @@ module "sample_service" {
     aws = aws
   }
 
+  desired_count = 0
+
   ecr_artifact   = module.sample_repository.repository_arn
   ecs_cluster_id = module.sample_cluster.cluster_id
 

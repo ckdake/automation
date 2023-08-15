@@ -31,6 +31,15 @@ Run `prowler` to populate Security Hub with any breaking things it fines by:
 
 ### TODO
 
+- [ ] Sample-app
+  - [ ] get container image pulling from internet (resolve "CannotPullContainerError: pull image manifest has been retried 5 time(s): failed to resolve ref docker.io/library/latest:latest: failed to do request: Head "<https://registry-1.docker.io/v2/library/latest/manifests/latest>": dial tcp 44.205.64.79:443: i/o timeout")
+  - [ ] get it booting
+  - [ ] get it talking to the internet
+  - [ ] move to test1 account
+  - [ ] automatic deploy on container push to ECR
+  - [ ] talk to an AWS Serverless V2
+  - [ ] talk to an ElasticCache
+  - [ ] Use a Secret
 - [ ] linters and formatters etc
 - [ ] saml2aws for logging in, what to use for IdP?
 - [ ] get test1 and test2 accounts working with `terraform apply`
