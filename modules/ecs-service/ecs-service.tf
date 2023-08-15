@@ -38,12 +38,12 @@ resource "aws_ecs_service" "service" {
   enable_ecs_managed_tags = false
 
   network_configuration {
-    assign_public_ip = false
+    assign_public_ip = true
     security_groups  = [aws_security_group.ecs_service.id]
     subnets          = var.subnets
   }
 
-  # TODO(ckdake) setup ALBs
+  # alternatively set public ip to private, and use an alb to get traffic in
   # load_balancer {
   #   target_group_arn = aws_alb_target_group.portal_web_target_group.arn
   #   container_name   = "sample-app-web"
