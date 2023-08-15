@@ -8,7 +8,11 @@ on:
       - "tools/sample-app-web/**"
 
 env:
-  AWS_REGION: "us-east-1"
+  AWS_REGION: us-east-1
+  REGISTRY: 053562908965.dkr.ecr.us-east-1.amazonaws.com
+  REPOSITORY: ithought/sample-app
+  GITHUB_OIDC_ROLE: arn:aws:iam::053562908965:role/github-actions
+  AWS_ROLE_SESSION_NAME: sample-app-web-ecr--push-session
 
 jobs:
   ci:
@@ -19,10 +23,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Get aws credentials for ECR push
+        uses: aws-actions/configure-aws-credentials@v2.2.0
+        with:
+          role-to-assume: ${{ env.GITHUB_OIDC_ROLE }}
+          role-session-name: ${{ env.AWS_ROLE_SESSION_NAME }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Login to ECR
+        uses: docker/login-action@v2.2.0
+        with:
+          registry: ${{ env.REGISTRY }}
       - name: Build and Push
         uses: docker/build-push-action@v4
         with:
           context: tools/sample-app-web
           platforms: linux/amd64
           file: tools/sample-app-web/Dockerfile
-          push: false
+          push: true
+          # TODO(ckdake): tagging strategy! especially for main -vs- not main.
+          tags: |
+            "ithought/sample-app:latest"
