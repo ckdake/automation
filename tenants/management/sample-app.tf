@@ -57,14 +57,10 @@ module "github_actions" {
   }
 
   repository_names = [
-    "repo:ithought/${local.sample_app_name}:*"
+    "repo:ckdake/automation:*"
   ]
   policy_attachment_arns = [
-    module.sample_repository.use_ecr_policy_arn
+    module.sample_repository.use_ecr_policy_arn,
+    module.sample_repository.push_policy_arn
   ]
-}
-
-resource "aws_iam_role_policy_attachment" "github_actions_push_to_ecr" {
-  role       = module.github_actions.role_name
-  policy_arn = module.sample_repository.push_policy_arn
 }
