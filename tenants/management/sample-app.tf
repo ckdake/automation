@@ -1,3 +1,7 @@
+locals {
+  sample_app_name = "sample-app"
+}
+
 module "sample_repository" {
   source = "../../modules/ecr-repository"
   providers = {
@@ -5,7 +9,7 @@ module "sample_repository" {
   }
 
   repository_namespace = "ithought"
-  repository_name      = "sample-app"
+  repository_name      = local.sample_app_name
   kms_key_arn          = aws_kms_key.management.arn
 }
 
@@ -37,7 +41,7 @@ module "sample_service" {
   ecr_artifact   = module.sample_repository.repository_arn
   ecs_cluster_id = module.sample_cluster.cluster_id
 
-  service_name       = "sample-app"
+  service_name       = local.sample_app_name
   pull_policy_arn    = module.sample_repository.pull_policy_arn
   use_ecr_policy_arn = module.sample_repository.use_ecr_policy_arn
 
@@ -53,7 +57,7 @@ module "github_actions" {
   }
 
   repository_names = [
-    "repo:ithought/sample-app-web:*"
+    "repo:ithought/${local.sample_app_name}:*"
   ]
   policy_attachment_arns = [
     module.sample_repository.use_ecr_policy_arn
