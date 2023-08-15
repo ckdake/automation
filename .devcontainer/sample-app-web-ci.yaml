@@ -1,6 +1,7 @@
 name: sample-web-app CI
 
 on:
+  pull_request:
   push:
     paths:
       - "tools/sample-app-web"

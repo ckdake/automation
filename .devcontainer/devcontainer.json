@@ -9,7 +9,7 @@
 			"installTFsec": true,
 			"version": "latest",
 			"tflint": "latest",
-			"terragrunt": "0.49.0"
+			"terragrunt": "0.49.0" // latest doesn't build! 0.50.0.
 		},
 		"ghcr.io/devcontainers/features/aws-cli:1": {
 			"version": "latest"
