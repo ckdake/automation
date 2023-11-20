@@ -2,7 +2,15 @@ variable "desired_count" {
   type = string
 }
 
-variable "ecr_artifact" {
+variable "ecr_repository" {
+  type = string
+}
+
+variable "ecr_repository_image_url" {
+  type = string
+}
+
+variable "image_tag" {
   type = string
 }
 
@@ -14,7 +22,7 @@ variable "service_name" {
   type = string
 }
 
-variable "subnets" {
+variable "public_subnets" {
   type = set(string)
 }
 
@@ -27,5 +35,9 @@ variable "use_ecr_policy_arn" {
 }
 
 variable "vpc_id" {
+  type = string
+}
+
+variable "public_network_acl_id" {
   type = string
 }

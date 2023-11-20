@@ -10,6 +10,10 @@ output "repository_arn" {
   value = aws_ecr_repository.repository.arn
 }
 
+output "repository_url" {
+  value = aws_ecr_repository.repository.repository_url
+}
+
 output "use_ecr_policy_arn" {
   value = aws_iam_policy.use_ecr.arn
 }

@@ -38,17 +38,20 @@ module "sample_service" {
     aws = aws
   }
 
-  desired_count = 0
+  desired_count = 1
 
-  ecr_artifact   = module.sample_repository.repository_arn
-  ecs_cluster_id = module.sample_cluster.cluster_id
+  ecr_repository           = module.sample_repository.repository_arn
+  ecr_repository_image_url = module.sample_repository.repository_url
+  image_tag                = "latest"
+  ecs_cluster_id           = module.sample_cluster.cluster_id
 
   service_name       = local.sample_app_name
   pull_policy_arn    = module.sample_repository.pull_policy_arn
   use_ecr_policy_arn = module.sample_repository.use_ecr_policy_arn
 
-  vpc_id  = module.sample_vpc.vpc_id
-  subnets = module.sample_vpc.public_subnet_ids
+  vpc_id                = module.sample_vpc.vpc_id
+  public_network_acl_id = module.sample_vpc.public_network_acl_id
+  public_subnets        = module.sample_vpc.public_subnet_ids
 }
 
 
