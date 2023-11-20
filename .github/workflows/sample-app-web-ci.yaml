@@ -1,0 +1,49 @@
+name: sample-web-app CI
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/sample-app-web-ci.yaml
+      - tools/sample-app-web/**
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/sample-app-web-ci.yaml
+      - tools/sample-app-web/**
+
+env:
+  AWS_REGION: us-east-1
+  REGISTRY: 053562908965.dkr.ecr.us-east-1.amazonaws.com
+  REPOSITORY: ithought/sample-app
+  GITHUB_OIDC_ROLE: arn:aws:iam::053562908965:role/github-actions
+  AWS_ROLE_SESSION_NAME: sample-app-web-ecr-push-session
+
+jobs:
+  ci:
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read # This is required for actions/checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get aws credentials for ECR push
+        uses: aws-actions/configure-aws-credentials@v2.2.0
+        with:
+          role-to-assume: ${{ env.GITHUB_OIDC_ROLE }}
+          role-session-name: ${{ env.AWS_ROLE_SESSION_NAME }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Login to ECR
+        uses: docker/login-action@v2.2.0
+        with:
+          registry: ${{ env.REGISTRY }}
+      - name: Build and Push
+        uses: docker/build-push-action@v4
+        with:
+          context: tools/sample-app-web
+          platforms: linux/amd64
+          file: tools/sample-app-web/Dockerfile
+          push: true
+          # TODO(ckdake): tagging strategy! especially for main -vs- not main.
+          tags: "${{ env.REGISTRY }}/${{ env.REPOSITORY }}:latest"

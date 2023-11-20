@@ -9,20 +9,6 @@ terraform {
   required_version = ">= 1.2.0"
 }
 
-provider "aws" {
-  region = "us-east-1"
-
-  assume_role {
-    role_arn = "arn:aws:iam::053562908965:role/administrator"
-  }
-
-  default_tags {
-    tags = {
-      ManagedBy = "terraform"
-    }
-  }
-}
-
 data "aws_availability_zones" "available" {
   state = "available"
 }

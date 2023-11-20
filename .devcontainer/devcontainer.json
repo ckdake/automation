@@ -9,9 +9,12 @@
 			"installTFsec": true,
 			"version": "latest",
 			"tflint": "latest",
-			"terragrunt": "latest"
+			"terragrunt": "0.49.0" // latest doesn't build! 0.50.0.
 		},
 		"ghcr.io/devcontainers/features/aws-cli:1": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
 			"version": "latest"
 		}
 	},
@@ -48,7 +51,8 @@
 				"tfsec.tfsec",
 				"timonwong.shellcheck",
 				"redhat.vscode-yaml",
-				"infracost.infracost"
+				"infracost.infracost",
+				"ms-vscode.makefile-tools"
 			]
 		}
 	}
