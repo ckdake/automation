@@ -42,6 +42,10 @@ resource "aws_ecs_task_definition" "task" {
         {
           containerPath = "/var/lib/nginx/tmp"
           sourceVolume  = "nginx-tmp"
+        },
+        {
+          containerPath = "/var/run"
+          sourceVolume  = "nginx-run"
         }
       ]
       volumesFrom = []
@@ -68,6 +72,10 @@ resource "aws_ecs_task_definition" "task" {
 
   volume {
     name = "nginx-tmp"
+  }
+
+  volume {
+    name = "nginx-run"
   }
 }
 
