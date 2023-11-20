@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - main
-      - ckdake/gets-service-working
     paths:
       - .github/workflows/sample-app-web-ci.yaml
       - tools/sample-app-web/**

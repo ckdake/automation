@@ -38,7 +38,7 @@ module "sample_service" {
     aws = aws
   }
 
-  desired_count = 1
+  desired_count = 0
 
   ecr_repository           = module.sample_repository.repository_arn
   ecr_repository_image_url = module.sample_repository.repository_url
