@@ -29,6 +29,9 @@ Currently only works in `tenants/management` with `terraform apply`.
 Run `prowler` to populate Security Hub with any breaking things it fines by:
 `cd tools/prowler/ && ./install-prowler.sh && ./run-prowler.sh`
 
+Run `trivy` to scan for vulns:
+`cd tenants/management/ && trivy config . --ignorefile ./.trivyignore.yaml`
+
 ### TODO
 
 - [ ] Sample-app
