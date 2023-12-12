@@ -1,7 +1,7 @@
-name: tfsec
+name: trivy
 on: [push]
 jobs:
-  run-tfsec:
+  run-trivy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: tfsec
+      - name: trivy
         uses: aquasecurity/trivy-action@master
         with:
           github_token: ${{ github.token }}
