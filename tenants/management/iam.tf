@@ -20,6 +20,11 @@ resource "aws_iam_role_policy_attachment" "administrator_gets_administrator" {
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
+resource "aws_iam_role_policy_attachment" "administrator_gets_billing" {
+  role       = aws_iam_role.administrator.id
+  policy_arn = "arn:aws:iam::aws:policy/job-function/Billing"
+}
+
 # Group of users allowed to assume the administrator role
 # TODO(ckdake): figure out the right way to enforce MFA with auth pattern
 # tfsec:ignore:aws-iam-enforce-group-mfa
