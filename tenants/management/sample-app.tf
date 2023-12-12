@@ -28,8 +28,9 @@ module "sample_vpc" {
     aws = aws
   }
 
-  vpc_name        = "sample-vpc"
-  vpc_cidr_prefix = "10.0"
+  vpc_name                    = "sample-vpc"
+  vpc_cidr_prefix             = "10.0"
+  logs_destination_bucket_arn = module.aws_logs.arn
 }
 
 module "sample_service" {

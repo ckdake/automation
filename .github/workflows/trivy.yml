@@ -1,7 +1,7 @@
-name: tfsec
+name: trivy
 on: [push]
 jobs:
-  run-tfsec:
+  run-trivy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -9,7 +9,12 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: tfsec
-        uses: aquasecurity/tfsec-pr-commenter-action@v1.3.1
+      - name: trivy
+        uses: aquasecurity/trivy-action@master
         with:
+          scan-type: "fs"
           github_token: ${{ github.token }}
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"

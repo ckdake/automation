@@ -7,7 +7,7 @@ module "aws_config_bucket" {
 
   bucket_name         = local.aws_config_bucket_name
   kms_key_arn         = aws_kms_key.management.arn
-  logging_bucket_name = local.logging_bucket_name
+  logging_bucket_name = local.s3_access_log_bucket_name
 
   # Docs for this policy are here: https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-policy.html 
   additional_bucket_policy_statements = [

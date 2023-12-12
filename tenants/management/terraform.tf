@@ -5,7 +5,7 @@ module "terraform_state_bucket" {
   }
 
   bucket_name         = "ithought-terraform"
-  logging_bucket_name = module.terraform_logging_bucket.id
+  logging_bucket_name = local.s3_access_log_bucket_name
   kms_key_arn         = aws_kms_key.management.arn
 }
 
