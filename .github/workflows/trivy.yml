@@ -12,6 +12,7 @@ jobs:
       - name: trivy
         uses: aquasecurity/trivy-action@master
         with:
+          scan-type: "fs"
           github_token: ${{ github.token }}
           format: "table"
           exit-code: "1"
