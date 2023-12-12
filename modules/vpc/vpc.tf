@@ -17,4 +17,10 @@ resource "aws_default_route_table" "vpc" {
   default_route_table_id = aws_vpc.vpc.default_route_table_id
 }
 
+resource "aws_flow_log" "vpc" {
+  log_destination      = var.logs_destination_bucket_arn
+  log_destination_type = "s3"
+  traffic_type         = "ALL"
+  vpc_id               = aws_vpc.vpc.id
+}
 

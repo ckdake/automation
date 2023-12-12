@@ -4,21 +4,18 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-# tfsec:ignore:aws-vpc-no-default-vpc
-# tfsec:ignore:aws-ec2-require-vpc-flow-logs-for-all-vpcs
 resource "aws_default_vpc" "default" {
   tags = {
     Name = "default-vpc"
   }
 }
 
-# TODO(ckdake): set up vpc flow logging
-# resource "aws_flow_log" "default" {
-#   log_destination      = module.vpcflowlogs_s3_bucket.bucket_arn
-#   log_destination_type = "s3"
-#   traffic_type         = "ALL"
-#   vpc_id               = aws_default_vpc.default.id
-# }
+resource "aws_flow_log" "default" {
+  log_destination      = var.logs_destination_bucket_arn
+  log_destination_type = "s3"
+  traffic_type         = "ALL"
+  vpc_id               = aws_default_vpc.default.id
+}
 
 # Empty security group disables all ingress and egress traffic
 resource "aws_default_security_group" "default" {
