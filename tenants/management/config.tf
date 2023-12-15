@@ -85,3 +85,12 @@ resource "aws_config_delivery_channel" "aws_config" {
 
   depends_on = [aws_config_configuration_recorder.aws_config]
 }
+
+resource "aws_config_configuration_aggregator" "organization" {
+  name = "ithought"
+
+  organization_aggregation_source {
+    all_regions = true
+    role_arn    = "arn:aws:iam::${aws_organizations_account.management.id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"
+  }
+}
