@@ -1,5 +1,5 @@
 resource "aws_kms_key" "management" {
-  description         = "This key is used to encrypt everything related to the management account"
+  description         = "This key is used to encrypt everything management related in this account"
   enable_key_rotation = true
 
   policy = <<EOP

@@ -32,12 +32,18 @@ Run `prowler` to populate Security Hub with any breaking things it fines by:
 Run `trivy` to scan for vulns:
 `cd tenants/management/ && trivy config . --ignorefile ./.trivyignore.yaml`
 
+### Bootstrapping a new account
+
+1. Add the account in tenants/management/organization.tf and `terraform apply`
+1. Log into the account's root user with "forgot password" and get some keys, set up profile
+1. Create a  `tenants/tenantname` folder and copy data.tf, kms.tf, and main.tf,
+   and update the account id in the `provider` block and the backend `key` block.
+   (TODO(ckdake): move this to a terragrunt template)
+1. Edit `scripts/bootstrap-tenant.sh` and run it.
+
 ### TODO
 
 - [ ] Sample-app
-  - [ ] get container image pulling from internet (resolve "CannotPullContainerError: pull image manifest has been retried 5 time(s): failed to resolve ref docker.io/library/latest:latest: failed to do request: Head "<https://registry-1.docker.io/v2/library/latest/manifests/latest>": dial tcp 44.205.64.79:443: i/o timeout")
-  - [ ] get it booting
-  - [ ] get it talking to the internet
   - [ ] move to test1 account
   - [ ] automatic deploy on container push to ECR
   - [ ] talk to an AWS Serverless V2
@@ -45,10 +51,8 @@ Run `trivy` to scan for vulns:
   - [ ] Use a Secret
 - [ ] linters and formatters etc
 - [ ] saml2aws for logging in, what to use for IdP?
-- [ ] get test1 and test2 accounts working with `terraform apply`
 - [ ] import everything in root account, test1 account, test2 account
 - [ ] get prowler checks to 100% green
 - [ ] setup github actions for terraform plan, terraform apply, prowler
 - [ ] terraform plugin caching
-- [ ] Setup AWS Config
 - [ ] lots more

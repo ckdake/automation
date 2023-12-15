@@ -53,7 +53,7 @@ resource "aws_default_subnet" "default_subnet" {
 }
 
 resource "aws_ebs_default_kms_key" "aws_ebs_default_kms_key" {
-  key_arn = var.kms_key_arn
+  key_arn = var.management_kms_key_arn
 }
 
 resource "aws_ebs_encryption_by_default" "aws_ebs_encryption_by_default" {

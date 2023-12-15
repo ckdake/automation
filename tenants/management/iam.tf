@@ -1,4 +1,4 @@
-# Role to be used for any administrative tasks
+# Role to be used for any administrative tasks in root account
 data "aws_iam_policy_document" "administrator_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -12,6 +12,7 @@ data "aws_iam_policy_document" "administrator_assume_role_policy" {
 
 resource "aws_iam_role" "administrator" {
   name               = "administrator"
+  path               = "/person-role/"
   assume_role_policy = data.aws_iam_policy_document.administrator_assume_role_policy.json
 }
 
@@ -43,7 +44,9 @@ resource "aws_iam_group_membership" "administrators" {
 
 resource "aws_iam_policy" "admin_assumption" {
   name        = "admin-assumption"
-  description = "allow assuming the admin role"
+  description = "allow assuming the admin role in this account"
+  path        = "/person-role/"
+
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -58,6 +61,27 @@ resource "aws_iam_policy" "admin_assumption" {
 resource "aws_iam_group_policy_attachment" "admin_assumption" {
   group      = aws_iam_group.administrators.name
   policy_arn = aws_iam_policy.admin_assumption.arn
+}
+
+resource "aws_iam_policy" "terraform_assumption" {
+  name        = "terraform-assumption"
+  description = "allow assuming the terraform in _any_ aws account"
+  path        = "/service-role/"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = "sts:AssumeRole",
+        Resource = "arn:aws:iam::*:role/service-role/terraform"
+    }]
+  })
+}
+
+resource "aws_iam_group_policy_attachment" "terraform_assumption" {
+  group      = aws_iam_group.administrators.name
+  policy_arn = aws_iam_policy.terraform_assumption.arn
 }
 
 # Single user that can only assume to the administrator role

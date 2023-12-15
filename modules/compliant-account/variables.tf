@@ -1,9 +1,12 @@
 variable "administrator_role_arn" {
-  type = string
+  type        = string
+  default     = "*"
+  description = "role allowed to create AWS support tickets"
 }
 
-variable "kms_key_arn" {
-  type = string
+variable "management_kms_key_arn" {
+  type        = string
+  description = "ARN of the key to use for management purposes in this account"
 }
 
 variable "logs_destination_bucket_arn" {

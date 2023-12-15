@@ -10,7 +10,7 @@ terraform {
 
   backend "s3" {
     bucket         = "ithought-terraform"
-    key            = "management.tfstate"
+    key            = "test1.tfstate"
     region         = "us-east-1"
     dynamodb_table = "terraform-lock"
     role_arn       = "arn:aws:iam::053562908965:role/service-role/terraform"
@@ -22,7 +22,7 @@ provider "aws" {
   region = "us-east-1"
 
   assume_role {
-    role_arn = "arn:aws:iam::053562908965:role/service-role/terraform"
+    role_arn = "arn:aws:iam::618006054620:role/service-role/terraform"
   }
 
   default_tags {
@@ -38,7 +38,16 @@ module "compliant_account" {
     aws = aws
   }
 
-  administrator_role_arn      = aws_iam_role.administrator.arn
   management_kms_key_arn      = aws_kms_key.management.arn
-  logs_destination_bucket_arn = module.aws_logs.arn
+  logs_destination_bucket_arn = "arn:aws:s3:::ithought-aws-logs"
+}
+
+import {
+  to = module.compliant_account.aws_iam_role.terraform
+  id = "terraform"
+}
+
+import {
+  to = module.compliant_account.aws_iam_role_policy_attachment.terraform_gets_administrator
+  id = "terraform/arn:aws:iam::aws:policy/AdministratorAccess"
 }

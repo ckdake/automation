@@ -27,7 +27,7 @@ module "s3_access_log_bucket" {
             "Resource": "arn:aws:s3:::${local.s3_access_log_bucket_name}/*",
             "Condition": {
                 "StringEquals": {
-                    "aws:SourceAccount": "${aws_organizations_account.management.id}"
+                    "aws:SourceAccount": "${local.account_id}"
                 }
             }
         }
@@ -58,7 +58,7 @@ module "aws_logs" {
             "Resource": "arn:aws:s3:::${local.aws_logs_bucket_name}/*",
             "Condition": {
                 "StringEquals": {
-                    "aws:SourceAccount": "${aws_organizations_account.management.id}"
+                    "aws:SourceAccount": "${local.account_id}"
                 }
             }
         }
@@ -77,7 +77,10 @@ EOP1
             "Resource": "arn:aws:s3:::${local.aws_logs_bucket_name}/*",
             "Condition": {
                "ArnLike": {
-                    "aws:SourceArn": "arn:aws:logs::${aws_organizations_account.management.id}:*"
+                    "aws:SourceArn": [
+                        "arn:aws:logs::${local.account_id}:*",
+                        "arn:aws:logs::618006054620:*"
+                    ]
                 }
             }
         }
@@ -97,7 +100,10 @@ EOP2
             "Resource": "arn:aws:s3:::${local.aws_logs_bucket_name}",
             "Condition": {
                "ArnLike": {
-                    "aws:SourceArn": "arn:aws:logs::${aws_organizations_account.management.id}:*"
+                    "aws:SourceArn": [
+                        "arn:aws:logs::${local.account_id}:*",
+                        "arn:aws:logs::618006054620:*"
+                    ]
                 }
             }
         }

@@ -22,7 +22,7 @@ module "aws_config_bucket" {
       "Resource": "arn:aws:s3:::${local.aws_config_bucket_name}",
       "Condition": { 
         "StringEquals": {
-          "AWS:SourceAccount": "${aws_organizations_account.management.id}"
+          "AWS:SourceAccount": "${local.account_id}"
         }
       }
     }
@@ -39,7 +39,7 @@ EOP1
       "Resource": "arn:aws:s3:::${local.aws_config_bucket_name}",
       "Condition": { 
         "StringEquals": {
-          "AWS:SourceAccount": "${aws_organizations_account.management.id}"
+          "AWS:SourceAccount": "${local.account_id}"
         }
       }
     }
@@ -57,7 +57,7 @@ EOP2
       "Condition": { 
         "StringEquals": { 
           "s3:x-amz-acl": "bucket-owner-full-control",
-          "AWS:SourceAccount": "${aws_organizations_account.management.id}"
+          "AWS:SourceAccount": "${local.account_id}"
         }
       }
     }
@@ -91,6 +91,6 @@ resource "aws_config_configuration_aggregator" "organization" {
 
   organization_aggregation_source {
     all_regions = true
-    role_arn    = "arn:aws:iam::${aws_organizations_account.management.id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"
+    role_arn    = "arn:aws:iam::${local.account_id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"
   }
 }
