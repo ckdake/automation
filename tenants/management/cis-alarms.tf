@@ -65,7 +65,7 @@ resource "aws_cloudwatch_log_metric_filter" "unauthorized_api_calls" {
   log_group_name = aws_cloudwatch_log_group.ithought_org_cloudtrail.id
   metric_transformation {
     name      = "UnauthorizedAPICalls"
-    namespace = "CISBenchmark"
+    namespace = local.alarm_namespace
     value     = "1"
   }
 }

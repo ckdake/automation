@@ -142,6 +142,8 @@ resource "aws_cloudtrail" "cloudtrail" {
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_to_cloudwatch.arn
   cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.ithought_org_cloudtrail.arn}:*" # CloudTrail requires the Log Stream wildcard
 
+  kms_key_id = aws_kms_key.management.arn
+
   insight_selector {
     insight_type = "ApiCallRateInsight"
   }
