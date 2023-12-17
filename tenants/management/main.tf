@@ -39,6 +39,7 @@ module "compliant_organization" {
   }
 
   organization_name = "ithought"
+  admin_person_name = "ckdake"
 }
 
 module "compliant_account" {

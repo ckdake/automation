@@ -44,7 +44,6 @@ Run `trivy` to scan for vulns:
 ### TODO
 
 - [ ] Sample-app
-  - [ ] move to test1 account
   - [ ] automatic deploy on container push to ECR
   - [ ] talk to an AWS Serverless V2
   - [ ] talk to an ElasticCache
