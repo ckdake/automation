@@ -10,7 +10,7 @@ module "sample_repository" {
 
   repository_namespace = "ithought"
   repository_name      = local.sample_app_name
-  kms_key_arn          = aws_kms_key.management.arn
+  kms_key_arn          = module.compliant_account.management_kms_key_arn
 }
 
 module "sample_cluster" {
@@ -30,7 +30,7 @@ module "sample_vpc" {
 
   vpc_name                    = "sample-vpc"
   vpc_cidr_prefix             = "10.0"
-  logs_destination_bucket_arn = module.aws_logs.arn
+  logs_destination_bucket_arn = module.compliant_account.logs_destination_bucket_arn
 }
 
 module "sample_service" {

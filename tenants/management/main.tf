@@ -32,6 +32,15 @@ provider "aws" {
   }
 }
 
+module "compliant_organization" {
+  source = "../../modules/compliant-organization"
+  providers = {
+    aws = aws
+  }
+
+  organization_name = "ithought"
+}
+
 module "compliant_account" {
   source = "../../modules/compliant-account"
   providers = {
@@ -39,6 +48,6 @@ module "compliant_account" {
   }
 
   administrator_role_arn      = aws_iam_role.administrator.arn
-  management_kms_key_arn      = aws_kms_key.management.arn
-  logs_destination_bucket_arn = module.aws_logs.arn
+  management_kms_key_arn      = module.compliant_organization.management_kms_key_arn
+  logs_destination_bucket_arn = module.compliant_organization.s3_logs_desination_bucket_arn
 }

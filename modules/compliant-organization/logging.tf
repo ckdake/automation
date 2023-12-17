@@ -1,6 +1,6 @@
 locals {
-  s3_access_log_bucket_name = "ithought-s3-access-logs"
-  aws_logs_bucket_name      = "ithought-aws-logs"
+  s3_access_log_bucket_name = "${var.organization_name}-s3-access-logs"
+  aws_logs_bucket_name      = "${var.organization_name}-aws-logs"
 }
 
 module "s3_access_log_bucket" {

@@ -6,7 +6,8 @@ variable "administrator_role_arn" {
 
 variable "management_kms_key_arn" {
   type        = string
-  description = "ARN of the key to use for management purposes in this account"
+  default     = ""
+  description = "ARN of the key to use for management purposes in this account, if blank, one will be created"
 }
 
 variable "logs_destination_bucket_arn" {

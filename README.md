@@ -43,7 +43,6 @@ Run `trivy` to scan for vulns:
 
 ### TODO
 
-- [ ] Move compliant org stuff from management tenant into a module
 - [ ] Sample-app
   - [ ] move to test1 account
   - [ ] automatic deploy on container push to ECR

@@ -25,7 +25,7 @@ resource "aws_kms_key" "management" {
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
-                    "AWS:SourceArn": "arn:aws:cloudtrail:${local.aws_region}:${local.account_id}:trail/ithought-org"
+                    "AWS:SourceArn": "arn:aws:cloudtrail:${local.aws_region}:${local.account_id}:trail/${var.organization_name}-org"
                 },
                 "StringLike": {
                     "kms:EncryptionContext:aws:cloudtrail:arn": "arn:aws:cloudtrail:*:${local.account_id}:trail/*"

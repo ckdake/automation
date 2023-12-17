@@ -1,5 +1,5 @@
 locals {
-  aws_config_bucket_name = "ithought-aws-config"
+  aws_config_bucket_name = "${var.organization_name}-aws-config"
 }
 
 module "aws_config_bucket" {
@@ -87,7 +87,7 @@ resource "aws_config_delivery_channel" "aws_config" {
 }
 
 resource "aws_config_configuration_aggregator" "organization" {
-  name = "ithought"
+  name = var.organization_name
 
   organization_aggregation_source {
     all_regions = true
