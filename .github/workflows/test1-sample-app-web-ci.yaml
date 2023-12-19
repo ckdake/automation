@@ -16,7 +16,7 @@ env:
   AWS_REGION: us-east-1
   REGISTRY: 618006054620.dkr.ecr.us-east-1.amazonaws.com
   REPOSITORY: ithought/sample-app
-  GITHUB_OIDC_ROLE: arn:aws:iam::618006054620:role/github-actions
+  GITHUB_OIDC_ROLE: arn:aws:iam::618006054620:role/service-role/github-actions
   AWS_ROLE_SESSION_NAME: sample-app-web-ecr-push-session
 
 jobs:
