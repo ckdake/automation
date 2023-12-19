@@ -48,6 +48,8 @@ module "compliant_account" {
     aws = aws
   }
 
+  is_management_account = true
+
   administrator_role_arn      = aws_iam_role.administrator.arn
   management_kms_key_arn      = module.compliant_organization.management_kms_key_arn
   logs_destination_bucket_arn = module.compliant_organization.s3_logs_desination_bucket_arn

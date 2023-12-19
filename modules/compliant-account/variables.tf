@@ -14,3 +14,9 @@ variable "logs_destination_bucket_arn" {
   type        = string
   description = "Target bucket for all AWS logs, except s3 access logs"
 }
+
+variable "is_management_account" {
+  type        = bool
+  default     = false
+  description = "True if this is the management account"
+}
