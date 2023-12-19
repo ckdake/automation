@@ -65,8 +65,35 @@ EOP3
   ]
 }
 
+resource "aws_iam_role" "aws_config_aggregator" {
+  name = "AWSConfigAggregator"
+  path = "/service-role/"
+
+  assume_role_policy = <<EOP
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "config.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+EOP
+}
+
 resource "aws_iam_service_linked_role" "aws_service_role_for_config" {
   aws_service_name = "config.amazonaws.com"
+}
+
+resource "aws_iam_role_policy_attachment" "aws_config_aggregator" {
+  role = aws_iam_role.aws_config_aggregator.name
+  # AWS Managed Policy
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRoleForOrganizations"
 }
 
 resource "aws_config_configuration_recorder" "aws_config" {
@@ -87,10 +114,10 @@ resource "aws_config_delivery_channel" "aws_config" {
 }
 
 resource "aws_config_configuration_aggregator" "organization" {
-  name = var.organization_name
+  name = "${var.organization_name}-org"
 
   organization_aggregation_source {
     all_regions = true
-    role_arn    = "arn:aws:iam::${local.account_id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"
+    role_arn    = aws_iam_role.aws_config_aggregator.arn
   }
 }
