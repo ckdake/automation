@@ -1,5 +1,7 @@
 resource "aws_iam_role" "aws_support_access" {
-  name               = "aws-support-access"
+  name = "aws-support-access"
+  path = "/person-role/"
+
   assume_role_policy = <<EOF
 {
     "Version": "2012-10-17",

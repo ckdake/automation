@@ -6,7 +6,7 @@ resource "aws_securityhub_account" "aws_securityhub" {
 resource "aws_securityhub_organization_admin_account" "aws_securityhub_admin_account" {
   depends_on = [aws_organizations_organization.root]
 
-  admin_account_id = aws_organizations_account.management.id
+  admin_account_id = local.account_id
 }
 
 # resource "aws_securityhub_standards_subscription" "aws" {

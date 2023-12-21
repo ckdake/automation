@@ -3,5 +3,5 @@
 # permissions and write permissions to Security. See the SecurityAudit policy.
 
 resource "aws_securityhub_product_subscription" "prowler" {
-  product_arn = "arn:aws:securityhub:us-east-1::product/prowler/prowler"
+  product_arn = "arn:aws:securityhub:${local.aws_region}::product/prowler/prowler"
 }

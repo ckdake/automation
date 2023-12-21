@@ -1,5 +1,5 @@
 locals {
-  aws_cloudtrail_bucket_name = "ithought-aws-cloudtrail"
+  aws_cloudtrail_bucket_name = "${var.organization_name}-aws-cloudtrail"
 }
 
 data "aws_iam_policy_document" "assume_cloudtrail_to_cloudwatch" {
@@ -16,11 +16,17 @@ data "aws_iam_policy_document" "assume_cloudtrail_to_cloudwatch" {
 }
 
 resource "aws_iam_role" "cloudtrail_to_cloudwatch" {
-  name               = "cloudtrail-to-cloudwatch"
+  name = "cloudtrail-to-cloudwatch"
+  path = "/service-role/"
+
   assume_role_policy = data.aws_iam_policy_document.assume_cloudtrail_to_cloudwatch.json
 }
 
 resource "aws_iam_policy" "allows_cloudtrail_to_cloudwatch" {
+  name        = "cloudtrail-to-cloudwatch"
+  description = "allows cloudtrail to publish to cloudwatch"
+  path        = "/service-role/"
+
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -32,8 +38,8 @@ resource "aws_iam_policy" "allows_cloudtrail_to_cloudwatch" {
                 "logs:CreateLogStream"
             ],
             "Resource": [
-                "arn:aws:logs:us-east-1:${aws_organizations_account.management.id}:log-group:ithought-org-cloudtrail:log-stream:${aws_organizations_account.management.id}_CloudTrail_us-east-1*",
-                "arn:aws:logs:us-east-1:${aws_organizations_account.management.id}:log-group:ithought-org-cloudtrail:log-stream:o-lo17jogrml_*"
+                "arn:aws:logs:${local.aws_region}:${local.account_id}:log-group:${var.organization_name}-org-cloudtrail:log-stream:${local.account_id}_CloudTrail_${local.aws_region}*",
+                "arn:aws:logs:${local.aws_region}:${local.account_id}:log-group:${var.organization_name}-org-cloudtrail:log-stream:o-lo17jogrml_*"
             ]
         },
         {
@@ -43,8 +49,8 @@ resource "aws_iam_policy" "allows_cloudtrail_to_cloudwatch" {
                 "logs:PutLogEvents"
             ],
             "Resource": [
-                "arn:aws:logs:us-east-1:${aws_organizations_account.management.id}:log-group:ithought-org-cloudtrail:log-stream:${aws_organizations_account.management.id}_CloudTrail_us-east-1*",
-                "arn:aws:logs:us-east-1:${aws_organizations_account.management.id}:log-group:ithought-org-cloudtrail:log-stream:o-lo17jogrml_*"
+                "arn:aws:logs:${local.aws_region}:${local.account_id}:log-group:${var.organization_name}-org-cloudtrail:log-stream:${local.account_id}_CloudTrail_${local.aws_region}*",
+                "arn:aws:logs:${local.aws_region}:${local.account_id}:log-group:${var.organization_name}-org-cloudtrail:log-stream:o-lo17jogrml_*"
             ]
         }
     ]
@@ -57,9 +63,9 @@ resource "aws_iam_role_policy_attachment" "allows_cloudtrail_to_cloudwatch" {
   policy_arn = aws_iam_policy.allows_cloudtrail_to_cloudwatch.arn
 }
 
-resource "aws_cloudwatch_log_group" "ithought_org_cloudtrail" {
+resource "aws_cloudwatch_log_group" "org_cloudtrail" {
   retention_in_days = 365
-  name              = "ithought-org-cloudtrail"
+  name              = "${var.organization_name}-org-cloudtrail"
 }
 
 module "aws_cloudtrail_bucket" {
@@ -80,7 +86,7 @@ module "aws_cloudtrail_bucket" {
             "Resource": "arn:aws:s3:::${local.aws_cloudtrail_bucket_name}",
             "Condition": {
                 "StringEquals": {
-                    "AWS:SourceArn": "arn:aws:cloudtrail:us-east-1:${aws_organizations_account.management.id}:trail/ithought-org"
+                    "AWS:SourceArn": "arn:aws:cloudtrail:${local.aws_region}:${local.account_id}:trail/${var.organization_name}-org"
                 }
             }
         }
@@ -94,11 +100,11 @@ EOP1
                 "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${local.aws_cloudtrail_bucket_name}/AWSLogs/${aws_organizations_account.management.id}/*",
+            "Resource": "arn:aws:s3:::${local.aws_cloudtrail_bucket_name}/AWSLogs/${local.account_id}/*",
             "Condition": {
                 "StringEquals": {
                     "s3:x-amz-acl": "bucket-owner-full-control",
-                    "AWS:SourceArn": "arn:aws:cloudtrail:us-east-1:${aws_organizations_account.management.id}:trail/ithought-org"
+                    "AWS:SourceArn": "arn:aws:cloudtrail:${local.aws_region}:${local.account_id}:trail/${var.organization_name}-org"
                 }
             }
         }
@@ -116,7 +122,7 @@ EOP2
             "Condition": {
                 "StringEquals": {
                     "s3:x-amz-acl": "bucket-owner-full-control",
-                    "AWS:SourceArn": "arn:aws:cloudtrail:us-east-1:${aws_organizations_account.management.id}:trail/ithought-org"
+                    "AWS:SourceArn": "arn:aws:cloudtrail:${local.aws_region}:${local.account_id}:trail/${var.organization_name}-org"
                 }
             }
         }
@@ -126,7 +132,7 @@ EOP3
 
 
 resource "aws_cloudtrail" "cloudtrail" {
-  name                          = "ithought-org"
+  name                          = "${var.organization_name}-org"
   s3_bucket_name                = local.aws_cloudtrail_bucket_name
   s3_key_prefix                 = ""
   include_global_service_events = true
@@ -134,7 +140,9 @@ resource "aws_cloudtrail" "cloudtrail" {
   is_multi_region_trail         = true
   enable_log_file_validation    = true
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_to_cloudwatch.arn
-  cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.ithought_org_cloudtrail.arn}:*" # CloudTrail requires the Log Stream wildcard
+  cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.org_cloudtrail.arn}:*" # CloudTrail requires the Log Stream wildcard
+
+  kms_key_id = aws_kms_key.management.arn
 
   insight_selector {
     insight_type = "ApiCallRateInsight"

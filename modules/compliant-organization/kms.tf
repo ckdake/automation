@@ -10,7 +10,7 @@ resource "aws_kms_key" "management" {
             "Sid": "Enable IAM User Permissions",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::${aws_organizations_account.management.id}:root"
+                "AWS": "arn:aws:iam::${local.account_id}:root"
             },
             "Action": "kms:*",
             "Resource": "*"
@@ -25,10 +25,10 @@ resource "aws_kms_key" "management" {
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
-                    "AWS:SourceArn": "arn:aws:cloudtrail:us-east-1:${aws_organizations_account.management.id}:trail/ithought-org"
+                    "AWS:SourceArn": "arn:aws:cloudtrail:${local.aws_region}:${local.account_id}:trail/${var.organization_name}-org"
                 },
                 "StringLike": {
-                    "kms:EncryptionContext:aws:cloudtrail:arn": "arn:aws:cloudtrail:*:${aws_organizations_account.management.id}:trail/*"
+                    "kms:EncryptionContext:aws:cloudtrail:arn": "arn:aws:cloudtrail:*:${local.account_id}:trail/*"
                 }
             }
         },
@@ -54,10 +54,10 @@ resource "aws_kms_key" "management" {
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
-                    "kms:CallerAccount": "${aws_organizations_account.management.id}"
+                    "kms:CallerAccount": "${local.account_id}"
                 },
                 "StringLike": {
-                    "kms:EncryptionContext:aws:cloudtrail:arn": "arn:aws:cloudtrail:*:${aws_organizations_account.management.id}:trail/*"
+                    "kms:EncryptionContext:aws:cloudtrail:arn": "arn:aws:cloudtrail:*:${local.account_id}:trail/*"
                 }
             }
         },
@@ -71,8 +71,8 @@ resource "aws_kms_key" "management" {
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
-                    "kms:CallerAccount": "${aws_organizations_account.management.id}",
-                    "kms:ViaService": "ec2.us-east-1.amazonaws.com"
+                    "kms:CallerAccount": "${local.account_id}",
+                    "kms:ViaService": "ec2.${local.aws_region}.amazonaws.com"
                 }
             }
         },
@@ -89,10 +89,48 @@ resource "aws_kms_key" "management" {
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
-                    "kms:CallerAccount": "${aws_organizations_account.management.id}"
+                    "kms:CallerAccount": "${local.account_id}"
                 },
                 "StringLike": {
-                    "kms:EncryptionContext:aws:cloudtrail:arn": "arn:aws:cloudtrail:*:${aws_organizations_account.management.id}:trail/*"
+                    "kms:EncryptionContext:aws:cloudtrail:arn": "arn:aws:cloudtrail:*:${local.account_id}:trail/*"
+                }
+            }
+        },
+        {
+            "Sid": "Allow_CloudWatch_for_CMK",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                "cloudwatch.amazonaws.com"
+                ]
+            },
+            "Action": [
+                "kms:Decrypt",
+                "kms:GenerateDataKey*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Allow Logs Delivery to use the kwy",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                "delivery.logs.amazonaws.com"
+                ]
+            },
+            "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceAccount": [
+                        ${join(", ", [for s in aws_organizations_organization.root.accounts[*].id : format("%q", s)])}
+                    ]
                 }
             }
         }

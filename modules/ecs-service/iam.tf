@@ -11,18 +11,22 @@ data "aws_iam_policy_document" "ecs_assume_role" {
     condition {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
-      values   = [data.aws_caller_identity.current.account_id]
+      values   = [local.account_id]
     }
   }
 }
 
 resource "aws_iam_role" "task_role" {
-  name               = "${var.service_name}-task-role"
+  name = "${var.service_name}-task-role"
+  path = "/service-role/"
+
   assume_role_policy = data.aws_iam_policy_document.ecs_assume_role.json
 }
 
 resource "aws_iam_role" "task_execution_role" {
-  name               = "${var.service_name}-task-execution-role"
+  name = "${var.service_name}-task-execution-role"
+  path = "/service-role/"
+
   assume_role_policy = data.aws_iam_policy_document.ecs_assume_role.json
 }
 

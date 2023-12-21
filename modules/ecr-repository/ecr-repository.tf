@@ -23,7 +23,7 @@ resource "aws_ecr_repository_policy" "repository_policy" {
     "Effect": "Allow",
     "Principal": {
       "AWS": [
-        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        "arn:aws:iam::${local.account_id}:root"
       ]
     },
     "Action": [
@@ -92,6 +92,7 @@ EOF
 resource "aws_iam_policy" "pull_artifacts" {
   name        = "ecr-pull-${var.repository_name}-artifacts"
   description = "allows pulling all the ${var.repository_name} artifacts"
+  path        = "/service-role/"
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -114,6 +115,7 @@ resource "aws_iam_policy" "pull_artifacts" {
 resource "aws_iam_policy" "push_artifacts" {
   name        = "ecr-push-${var.repository_name}-artifacts"
   description = "allows pushing all the ${var.repository_name} artifacts"
+  path        = "/service-role/"
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -141,6 +143,7 @@ resource "aws_iam_policy" "push_artifacts" {
 resource "aws_iam_policy" "use_ecr" {
   name        = "use-ecr"
   description = "allows a role to use ECR. requires repo permissions separately"
+  path        = "/service-role/"
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
