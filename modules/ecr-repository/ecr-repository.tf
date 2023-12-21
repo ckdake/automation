@@ -39,7 +39,9 @@ resource "aws_ecr_repository_policy" "repository_policy" {
   {
     "Effect": "Allow",
     "Principal": {
-      "AWS": "*"
+      "AWS": [
+        "arn:aws:iam::${local.account_id}:root"
+      ]
     },
     "Action": [
       "ecr:BatchGetImage",
