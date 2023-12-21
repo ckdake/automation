@@ -50,6 +50,7 @@ Run `trivy` to scan for vulns:
   - [ ] Use a Secret
 - [ ] saml2aws for logging in, what to use for IdP?
 - [ ] import everything in root account, test1 account, test2 account
+  - dhcp options, internet gateway, org delegation config, SES identitys
 - [ ] get prowler checks to 100% green
 - [ ] setup github actions for terraform plan, terraform apply, prowler
 - [ ] terraform plugin caching
