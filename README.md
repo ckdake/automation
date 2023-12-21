@@ -48,7 +48,6 @@ Run `trivy` to scan for vulns:
   - [ ] talk to an AWS Serverless V2
   - [ ] talk to an ElasticCache
   - [ ] Use a Secret
-- [ ] linters and formatters etc
 - [ ] saml2aws for logging in, what to use for IdP?
 - [ ] import everything in root account, test1 account, test2 account
 - [ ] get prowler checks to 100% green

@@ -47,15 +47,18 @@ resource "aws_iam_policy" "admin_assumption" {
   description = "allow assuming the admin role in this account"
   path        = "/person-role/"
 
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect   = "Allow",
-        Action   = "sts:AssumeRole",
-        Resource = aws_iam_role.administrator.arn
-    }]
-  })
+  policy = <<EOP
+{
+	"Statement": [
+		{
+			"Action": "sts:AssumeRole",
+			"Effect": "Allow",
+			"Resource": "${aws_iam_role.administrator.arn}"
+		}
+	],
+	"Version": "2012-10-17"
+}
+EOP
 }
 
 resource "aws_iam_group_policy_attachment" "admin_assumption" {
@@ -68,15 +71,18 @@ resource "aws_iam_policy" "terraform_assumption" {
   description = "allow assuming the terraform in _any_ aws account"
   path        = "/service-role/"
 
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect   = "Allow",
-        Action   = "sts:AssumeRole",
-        Resource = "arn:aws:iam::*:role/service-role/terraform"
-    }]
-  })
+  policy = <<EOP
+{
+	"Statement": [
+		{
+			"Action": "sts:AssumeRole",
+			"Effect": "Allow",
+			"Resource": "arn:aws:iam::*:role/service-role/terraform"
+		}
+	],
+	"Version": "2012-10-17"
+}
+EOP
 }
 
 resource "aws_iam_group_policy_attachment" "terraform_assumption" {

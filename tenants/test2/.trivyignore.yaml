@@ -1,0 +1,5 @@
+misconfigurations:
+  - id: AVD-AWS-0101
+    paths:
+      - "../../modules/compliant-account/vpc.tf"
+    statement: "We use the default vpc only to disable things in it"

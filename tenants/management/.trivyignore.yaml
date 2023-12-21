@@ -1,22 +1,17 @@
 misconfigurations:
-  - id: AVD-AWS-0017
+  - id: AVD-AWS-0057
     paths:
-      - "../../modules/ecs-service/ecs-service.tf"
-    statement: "Not managing cloudwatch log groups fully yet, so an AWS managed key is fine for now."
-  - id: AVD-AWS-0031
-    paths:
-      - "../../modules/ecr-repository/ecr-repository.tf"
-    statement: "We're using the latest tag deployment model, so tags have to be mutable for now."
-  - id: AVD-AWS-0101
-    paths:
-      - "../../modules/compliant-account/vpc.tf"
-    statement: The Default VPC is only used to lock down it's defaults.
-  - id: AVD-AWS-0105
-    paths:
-      - "../../modules/vpc/public-acls.tf"
-      - "../../modules/ecs-service/networking.tf"
-    statement: This ACL is open to the public internet in order to serve public traffic.
+      - "iam.tf"
+    statement: "Intentionally allowing assuming into all terraform roles in all AWS accounts"
   - id: AVD-AWS-0132
     paths:
       - "../../modules/s3-bucket/s3-bucket.tf"
-    statement: "This bucket must use AWS keys due to AWS functionality"
+    statement: "We have to use a AWS managed key for log target bucket"
+  - id: AVD-AWS-0017
+    paths:
+      - "../../modules/compliant-organization/cloudtrail.tf"
+    statement: "We are using an AWS managed key for the cloudtrail bucket"
+  - id: AVD-AWS-0101
+    paths:
+      - "../../modules/compliant-account/vpc.tf"
+    statement: "We use the default vpc only to disable things in it"
