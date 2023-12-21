@@ -1,6 +1,6 @@
 variable "administrator_role_arn" {
   type        = string
-  default     = "*"
+  default     = ""
   description = "role allowed to create AWS support tickets"
 }
 
