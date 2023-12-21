@@ -129,16 +129,7 @@ resource "aws_kms_key" "management" {
             "Condition": {
                 "StringEquals": {
                     "aws:SourceAccount": [
-                        "${local.account_id}",
-                        "618006054620",
-                        "738376543761"
-                    ]
-                },
-                "ArnLike": {
-                    "aws:SourceArn": [
-                        "arn:aws:logs:us-east-1:${local.account_id}:*",
-                        "arn:aws:logs:us-east-1:618006054620:*",
-                        "arn:aws:logs:us-east-1:738376543761:*"
+                        ${join(", ", [for s in aws_organizations_organization.root.accounts[*].id : format("%q", s)])}
                     ]
                 }
             }

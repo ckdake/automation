@@ -60,9 +60,7 @@ module "aws_logs" {
             "Condition": {
                 "StringEquals": {
                     "aws:SourceAccount": [
-                        "${local.account_id}",
-                        "618006054620",
-                        "738376543761"
+                        ${join(", ", [for s in aws_organizations_organization.root.accounts[*].id : format("%q", s)])}
                     ]
                 }
             }
@@ -83,9 +81,7 @@ EOP1
             "Condition": {
                 "StringEquals": {
                     "aws:SourceAccount": [
-                        "${local.account_id}",
-                        "618006054620",
-                        "738376543761"
+                        ${join(", ", [for s in aws_organizations_organization.root.accounts[*].id : format("%q", s)])}
                     ]
                 }
             }
@@ -107,9 +103,7 @@ EOP2
             "Condition": {
                 "StringEquals": {
                     "aws:SourceAccount": [
-                        "${local.account_id}",
-                        "618006054620",
-                        "738376543761"
+                        ${join(", ", [for s in aws_organizations_organization.root.accounts[*].id : format("%q", s)])}
                     ]
                 }
             }
