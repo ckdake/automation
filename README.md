@@ -36,10 +36,10 @@ Run `trivy` to scan for vulns:
 
 1. Add the account in tenants/management/organization.tf and `terraform apply`
 1. Log into the account's root user with "forgot password" and get some keys, set up profile
-1. Create a  `tenants/tenantname` folder and copy data.tf, kms.tf, and main.tf,
+1. Create a  `tenants/${TENANTNAME}` folder, copy a `main.tf` from another tenant,
    and update the account id in the `provider` block and the backend `key` block.
    (TODO(ckdake): move this to a terragrunt template)
-1. Edit `scripts/bootstrap-tenant.sh` and run it.
+1. cd into `tenants/${TENANTNAME}` and run `../../scripts/bootstrap-tenant.sh`
 
 ### TODO
 
