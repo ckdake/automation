@@ -39,6 +39,7 @@ module "compliant_account" {
   }
 
   logs_destination_bucket_arn = "arn:aws:s3:::ithought-aws-logs"
+  aws_config_bucket_name      = "ithought-aws-config"
 }
 
 import {

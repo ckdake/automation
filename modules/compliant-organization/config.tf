@@ -70,31 +70,10 @@ resource "aws_iam_role" "aws_config_aggregator" {
 EOP
 }
 
-resource "aws_iam_service_linked_role" "aws_service_role_for_config" {
-  aws_service_name = "config.amazonaws.com"
-}
-
 resource "aws_iam_role_policy_attachment" "aws_config_aggregator" {
   role = aws_iam_role.aws_config_aggregator.name
   # AWS Managed Policy
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRoleForOrganizations"
-}
-
-resource "aws_config_configuration_recorder" "aws_config" {
-  name     = "aws-config"
-  role_arn = aws_iam_service_linked_role.aws_service_role_for_config.arn
-
-  recording_group {
-    all_supported                 = true
-    include_global_resource_types = true
-  }
-}
-
-resource "aws_config_delivery_channel" "aws_config" {
-  name           = "aws-config"
-  s3_bucket_name = local.aws_config_bucket_name
-
-  depends_on = [aws_config_configuration_recorder.aws_config]
 }
 
 resource "aws_config_configuration_aggregator" "organization" {

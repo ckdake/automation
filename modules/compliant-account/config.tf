@@ -1,6 +1,20 @@
 resource "aws_iam_service_linked_role" "aws_service_role_for_config" {
-  # The management account creates this already, so we don't need to try again
-  count = var.is_management_account ? 0 : 1
-
   aws_service_name = "config.amazonaws.com"
+}
+
+resource "aws_config_configuration_recorder" "aws_config" {
+  name     = "aws-config"
+  role_arn = aws_iam_service_linked_role.aws_service_role_for_config.arn
+
+  recording_group {
+    all_supported                 = true
+    include_global_resource_types = true
+  }
+}
+
+resource "aws_config_delivery_channel" "aws_config" {
+  name           = "aws-config"
+  s3_bucket_name = var.aws_config_bucket_name
+
+  depends_on = [aws_config_configuration_recorder.aws_config]
 }

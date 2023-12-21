@@ -15,6 +15,11 @@ variable "logs_destination_bucket_arn" {
   description = "Target bucket for all AWS logs, except s3 access logs"
 }
 
+variable "aws_config_bucket_name" {
+  type        = string
+  description = "Name of the AWS config bucket"
+}
+
 variable "is_management_account" {
   type        = bool
   default     = false
