@@ -11,7 +11,7 @@ module "s3_access_log_bucket" {
 
   bucket_name         = local.s3_access_log_bucket_name
   logging_bucket_name = local.s3_access_log_bucket_name
-  kms_key_arn         = aws_kms_key.management.arn
+  # s3 access logs do not support AWS KMS keys, so we have to default to SSE-S3 keys.
 
   additional_bucket_policy_statements = [
     <<EOP
@@ -43,6 +43,7 @@ module "aws_logs" {
 
   bucket_name         = local.aws_logs_bucket_name
   logging_bucket_name = local.s3_access_log_bucket_name
+  kms_key_arn         = aws_kms_key.management.arn
 
   additional_bucket_policy_statements = [
     <<EOP1
@@ -58,7 +59,11 @@ module "aws_logs" {
             "Resource": "arn:aws:s3:::${local.aws_logs_bucket_name}/*",
             "Condition": {
                 "StringEquals": {
-                    "aws:SourceAccount": "${local.account_id}"
+                    "aws:SourceAccount": [
+                        "${local.account_id}",
+                        "618006054620",
+                        "738376543761"
+                    ]
                 }
             }
         }
@@ -76,10 +81,11 @@ EOP1
             ],
             "Resource": "arn:aws:s3:::${local.aws_logs_bucket_name}/*",
             "Condition": {
-               "ArnLike": {
-                    "aws:SourceArn": [
-                        "arn:aws:logs::${local.account_id}:*",
-                        "arn:aws:logs::618006054620:*"
+                "StringEquals": {
+                    "aws:SourceAccount": [
+                        "${local.account_id}",
+                        "618006054620",
+                        "738376543761"
                     ]
                 }
             }
@@ -99,10 +105,11 @@ EOP2
             ],
             "Resource": "arn:aws:s3:::${local.aws_logs_bucket_name}",
             "Condition": {
-               "ArnLike": {
-                    "aws:SourceArn": [
-                        "arn:aws:logs::${local.account_id}:*",
-                        "arn:aws:logs::618006054620:*"
+                "StringEquals": {
+                    "aws:SourceAccount": [
+                        "${local.account_id}",
+                        "618006054620",
+                        "738376543761"
                     ]
                 }
             }

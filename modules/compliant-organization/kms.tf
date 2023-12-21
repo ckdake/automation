@@ -109,7 +109,40 @@ resource "aws_kms_key" "management" {
                 "kms:GenerateDataKey*"
             ],
             "Resource": "*"
+        },
+        {
+            "Sid": "Allow Logs Delivery to use the kwy",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                "delivery.logs.amazonaws.com"
+                ]
+            },
+            "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceAccount": [
+                        "${local.account_id}",
+                        "618006054620",
+                        "738376543761"
+                    ]
+                },
+                "ArnLike": {
+                    "aws:SourceArn": [
+                        "arn:aws:logs:us-east-1:${local.account_id}:*",
+                        "arn:aws:logs:us-east-1:618006054620:*",
+                        "arn:aws:logs:us-east-1:738376543761:*"
+                    ]
+                }
             }
+        }
     ]
 }
 EOP

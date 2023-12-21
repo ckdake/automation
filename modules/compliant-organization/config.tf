@@ -19,12 +19,7 @@ module "aws_config_bucket" {
         "Service": "config.amazonaws.com"
       },
       "Action": "s3:GetBucketAcl",
-      "Resource": "arn:aws:s3:::${local.aws_config_bucket_name}",
-      "Condition": { 
-        "StringEquals": {
-          "AWS:SourceAccount": "${local.account_id}"
-        }
-      }
+      "Resource": "arn:aws:s3:::${local.aws_config_bucket_name}"
     }
 EOP1
     ,
@@ -36,12 +31,7 @@ EOP1
         "Service": "config.amazonaws.com"
       },
       "Action": "s3:ListBucket",
-      "Resource": "arn:aws:s3:::${local.aws_config_bucket_name}",
-      "Condition": { 
-        "StringEquals": {
-          "AWS:SourceAccount": "${local.account_id}"
-        }
-      }
+      "Resource": "arn:aws:s3:::${local.aws_config_bucket_name}"
     }
 EOP2
     ,
@@ -53,13 +43,7 @@ EOP2
         "Service": "config.amazonaws.com"
       },
       "Action": "s3:PutObject",
-      "Resource": "arn:aws:s3:::${local.aws_config_bucket_name}/AWSLogs/*/Config/*",
-      "Condition": { 
-        "StringEquals": { 
-          "s3:x-amz-acl": "bucket-owner-full-control",
-          "AWS:SourceAccount": "${local.account_id}"
-        }
-      }
+      "Resource": "arn:aws:s3:::${local.aws_config_bucket_name}/AWSLogs/*/Config/*"
     }
 EOP3
   ]
