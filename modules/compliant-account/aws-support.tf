@@ -9,7 +9,7 @@ resource "aws_iam_role" "aws_support_access" {
         {
             "Action": "sts:AssumeRole",
             "Principal": {
-               "AWS": "${var.administrator_role_arn}"
+               "AWS": "${var.administrator_role_arn != "" ? var.administrator_role_arn : "arn:aws:iam::${local.account_id}:root"}"
             },
             "Effect": "Allow",
             "Sid": ""
