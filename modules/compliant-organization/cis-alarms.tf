@@ -20,6 +20,55 @@ resource "aws_sns_topic" "cis_benchmark_alarms" {
   lambda_success_feedback_role_arn      = aws_iam_role.sns_delivery_status_to_cloudwatch.arn
   sqs_failure_feedback_role_arn         = aws_iam_role.sns_delivery_status_to_cloudwatch.arn
   sqs_success_feedback_role_arn         = aws_iam_role.sns_delivery_status_to_cloudwatch.arn
+
+  policy = <<EOP
+{
+  "Version": "2008-10-17",
+  "Id": "__default_policy_ID",
+  "Statement": [
+    {
+      "Sid": "__default_statement_ID",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": [
+        "SNS:GetTopicAttributes",
+        "SNS:SetTopicAttributes",
+        "SNS:AddPermission",
+        "SNS:RemovePermission",
+        "SNS:DeleteTopic",
+        "SNS:Subscribe",
+        "SNS:ListSubscriptionsByTopic",
+        "SNS:Publish"
+      ],
+      "Resource": "arn:aws:sns:${local.aws_region}:${local.account_id}:cis-benchmark-alarms",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceOwner": "${local.account_id}"
+        }
+      }
+    },
+    {
+      "Sid": "E.g., AWSBudgetsSNSPublishingPermissions",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "budgets.amazonaws.com"
+      },
+      "Action": "SNS:Publish",
+      "Resource": "arn:aws:sns:${local.aws_region}:${local.account_id}:cis-benchmark-alarms",
+      "Condition": {
+            "StringEquals": {
+              "aws:SourceAccount": "${local.account_id}"
+            },
+            "ArnLike": {
+              "aws:SourceArn": "arn:aws:budgets::${local.account_id}:*"
+            }
+          }
+    }
+  ]
+}
+EOP
 }
 
 resource "aws_sns_topic_subscription" "topic_email_subscription" {

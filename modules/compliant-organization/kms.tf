@@ -133,6 +133,25 @@ resource "aws_kms_key" "management" {
                     ]
                 }
             }
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "budgets.amazonaws.com"
+            },
+            "Action": [
+                "kms:GenerateDataKey*",
+                "kms:Decrypt"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                "aws:SourceAccount": "${local.account_id}"
+                },
+                "ArnLike": {
+                "aws:SourceArn": "arn:aws:budgets::${local.account_id}:*"
+                }
+            }
         }
     ]
 }
