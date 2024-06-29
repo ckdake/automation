@@ -3,3 +3,19 @@ misconfigurations:
     paths:
       - "../../modules/compliant-account/vpc.tf"
     statement: "We use the default vpc only to disable things in it"
+  - id: AVD-AWS-0031
+    paths:
+      - "../../modules/ecr-repository/ecr-repository.tf"
+    statement: "Currently we're relying on mutable tags for deploy"
+  - id: AVD-AWS-0017
+    paths:
+      - "../../modules/ecs-service/ecs-service.tf"
+    statement: "AWS managed keys are fine for now"
+  - id: "AVD-AWS-0105"
+    paths:
+      - "../../modules/ecs-service/networking.tf"
+    statement: "This is for inbound from internet"
+  - id: "AVD-AWS-0105"
+    paths:
+      - "../../modules/vpc/public-acls.tf"
+    statement: "This is for inbound from internet"

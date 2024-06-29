@@ -13,8 +13,10 @@ terraform {
     key            = "test1.tfstate"
     region         = "us-east-1"
     dynamodb_table = "terraform-lock"
-    role_arn       = "arn:aws:iam::053562908965:role/service-role/terraform"
-    encrypt        = true
+    assume_role = {
+      role_arn = "arn:aws:iam::053562908965:role/service-role/terraform"
+    }
+    encrypt = true
   }
 }
 

@@ -43,6 +43,7 @@ Run `trivy` to scan for vulns:
 
 ### TODO
 
+- [ ] "global" and "regional" and "-config" pattern
 - [ ] Sample-app
   - [ ] automatic deploy on container push to ECR
   - [ ] talk to an AWS Serverless V2
