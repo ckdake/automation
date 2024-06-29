@@ -16,6 +16,10 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
-    directory: "/tools/sample-app-web"
+    directory: "/tools/*"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "devcontainers"
+    directory: "/.devcontainer"
     schedule:
       interval: "weekly"
