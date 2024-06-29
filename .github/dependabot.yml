@@ -6,23 +6,13 @@
 version: 2
 updates:
   - package-ecosystem: "github-actions"
-    directory: "/.github/workflows" # Location of package manifests
+    directory: "/.github/workflows"
     schedule:
       interval: "weekly"
   - package-ecosystem: "terraform"
-    directory: "/tenants/management" # Location of package manifests
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "terraform"
-    directory: "/tenants/test1" # Location of package manifests
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "terraform"
-    directory: "/tenants/test2" # Location of package manifests
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "terraform"
-    directory: "/modules/s3-bucket" # Location of package manifests
+    directories:
+      - "/tenants/*"
+      - "/modules/*"
     schedule:
       interval: "weekly"
   - package-ecosystem: "docker"
