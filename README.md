@@ -43,12 +43,16 @@ Run `trivy` to scan for vulns:
 
 ### TODO
 
-- [ ] "global" and "regional" and "-config" pattern
+- [ ] implement "global" and "regional" and "-config" pattern
+- [ ] implement "automation:prod" pattern of docker container to run jobs
+- [ ] implement Application/Environment tagging, including in modules
+- [ ] implement SSO into AWS from somewhere
 - [ ] Sample-app
   - [ ] automatic deploy on container push to ECR
   - [ ] talk to an AWS Serverless V2
   - [ ] talk to an ElasticCache
   - [ ] Use a Secret
+  = [ ] Cloudwatch dashboard
 - [ ] saml2aws for logging in, what to use for IdP?
 - [ ] import everything in root account, test1 account, test2 account
   - dhcp options, internet gateway, org delegation config
