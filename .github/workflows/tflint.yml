@@ -3,6 +3,24 @@ on: [push]
 jobs:
   run-tflint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tf_dir:
+          - modules/compliant-account
+          - modules/compliant-organization
+          - modules/ecr-repository
+          - modules/ecs-cluster
+          - modules/ecs-service
+          - modules/github-actions
+          - modules/global-config
+          - modules/regional-config
+          - modules/regional-config-data
+          - modules/s3-bucket
+          - modules/vpc
+          - tenants/app-workspace
+          - tenants/management
+          - tenants/test1
+          - tenants/test2
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -17,7 +35,7 @@ jobs:
           tflint_version: v0.46.1
       - name: Initialize tflint
         run: |
-          cd tenants/management && tflint --init
+          cd tenants/${{ matrix.tf_dir }} && tflint --init
       - name: Run tflint
         run: |
-          cd tenants/management && tflint -f compact
+          cd tenants/${{ matrix.tf_dir }} && tflint -f compact

@@ -10,13 +10,20 @@ jobs:
   infracost:
     name: Infracost
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tenant_dir:
+          - tenants/app-workspace
+          - tenants/management
+          - tenants/test1
+          - tenants/test2
     permissions:
       contents: read
       # Required to post comments
       pull-requests: write
 
     env:
-      TF_ROOT: tenants/management
+      TF_ROOT: ${{ matrix.tenant_dir }}
       # If you're using Terraform Cloud/Enterprise and have variables or private modules stored
       # on there, specify the following to automatically retrieve the variables:
       #   INFRACOST_TERRAFORM_CLOUD_TOKEN: ${{ secrets.TFC_TOKEN }}
