@@ -72,6 +72,7 @@ TF_VAR_config_value_two=test2 terraform apply
 - [ ] implement "automation:prod" pattern of docker container to run jobs
 - [ ] implement Application/Environment tagging, including in modules
 - [ ] implement SSO into AWS from somewhere
+- [ ] implement SSM ssh pattern
 - [ ] Sample-app
   - [ ] automatic deploy on container push to ECR
   - [ ] talk to an AWS Serverless V2
@@ -83,5 +84,4 @@ TF_VAR_config_value_two=test2 terraform apply
   - dhcp options, internet gateway, org delegation config
 - [ ] get prowler checks to 100% green
 - [ ] setup github actions for terraform plan, terraform apply, prowler
-- [ ] terraform plugin caching
 - [ ] lots more
