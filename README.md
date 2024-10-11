@@ -64,7 +64,6 @@ TF_VAR_config_value_two=test2 terraform apply
 
 ### TODO
 
-- [ ] implement "global" and "regional" and "-config" pattern
 - [ ] implement "automation:prod" pattern of docker container to run jobs
 - [ ] implement Application/Environment tagging, including in modules
 - [ ] implement SSO into AWS from somewhere

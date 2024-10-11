@@ -35,7 +35,7 @@ jobs:
           tflint_version: v0.46.1
       - name: Initialize tflint
         run: |
-          cd tenants/${{ matrix.tf_dir }} && tflint --init
+          cd ${{ matrix.tf_dir }} && tflint --init
       - name: Run tflint
         run: |
-          cd tenants/${{ matrix.tf_dir }} && tflint -f compact
+          cd ${{ matrix.tf_dir }} && tflint -f compact
