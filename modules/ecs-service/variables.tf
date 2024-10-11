@@ -2,10 +2,6 @@ variable "desired_count" {
   type = string
 }
 
-variable "ecr_repository" {
-  type = string
-}
-
 variable "ecr_repository_image_url" {
   type = string
 }

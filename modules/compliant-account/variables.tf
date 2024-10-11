@@ -19,9 +19,3 @@ variable "aws_config_bucket_name" {
   type        = string
   description = "Name of the AWS config bucket"
 }
-
-variable "is_management_account" {
-  type        = bool
-  default     = false
-  description = "True if this is the management account"
-}

@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "github_actions_assumes_role" {
     condition {
       test = "StringLike"
       values = [
-        for repository_name in var.repository_names : "${repository_name}"
+        for repository_name in var.repository_names : repository_name
       ]
       variable = "token.actions.githubusercontent.com:sub"
     }

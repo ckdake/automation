@@ -41,7 +41,6 @@ module "sample_service" {
 
   desired_count = 0
 
-  ecr_repository           = module.sample_repository.repository_arn
   ecr_repository_image_url = module.sample_repository.repository_url
   image_tag                = "latest"
   ecs_cluster_id           = module.sample_cluster.cluster_id

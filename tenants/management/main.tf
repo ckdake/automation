@@ -56,7 +56,6 @@ module "compliant_organization" {
   }
 
   organization_name = "ithought"
-  admin_person_name = "ckdake"
 }
 
 module "compliant_account" {
@@ -64,8 +63,6 @@ module "compliant_account" {
   providers = {
     aws = aws
   }
-
-  is_management_account = true
 
   administrator_role_arn      = aws_iam_role.administrator.arn
   management_kms_key_arn      = module.compliant_organization.management_kms_key_arn
