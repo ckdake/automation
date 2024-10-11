@@ -1,9 +1,8 @@
 # Automation
 
-![infracost](https://github.com/ckdake/automation/actions/workflows/infracost.yml/badge.svg)
 ![tflint](https://github.com/ckdake/automation/actions/workflows/tflint.yml/badge.svg)
 ![trivy](https://github.com/ckdake/automation/actions/workflows/trivy.yml/badge.svg)
-
+![infracost](https://github.com/ckdake/automation/actions/workflows/infracost.yml/badge.svg)
 ![test1-sample-app-web-ci](https://github.com/ckdake/automation/actions/workflows/test1-sample-app-web-ci.yml/badge.svg)
 
 ## Terraform for AWS plaground
