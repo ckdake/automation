@@ -41,6 +41,27 @@ Run `trivy` to scan for vulns:
    (TODO(ckdake): move this to a terragrunt template)
 1. cd into `tenants/${TENANTNAME}` and run `../../scripts/bootstrap-tenant.sh`
 
+### Using the app-workspace tenant
+
+This is a unique tenant, as a proof-of-concept for using Terraform workspaces and
+persisting some state. This could be used to manage a "review-app" pattern.
+
+Each workspace stores some output in it's state, in a way that is usable in future
+`terraform apply` runs. The use case is for situations where different jobs in different
+places need to make changes to the same terraform-managed application. One example is
+separate pipelines for "frontend" and "backend" that both use a `terraform apply` to
+update an ECS task definition, for either the frontent or the backend. We don't want
+the frontend pipeline to know about the changes to the task defintion for the backend
+task. Any time `terraform apply` is run, it will only change things that are passed in
+via TF_VAR env vars, and all other things will persist. Defaults are set in the locals.tf.
+
+```bash
+cd tenants/app-workspace
+terraform workspace select -or-create my-app-one
+TF_VAR_config_value_one=test1 terraform apply
+TF_VAR_config_value_two=test2 terraform apply
+```
+
 ### TODO
 
 - [ ] implement "global" and "regional" and "-config" pattern
