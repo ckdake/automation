@@ -34,22 +34,20 @@ provider "aws" {
   }
 }
 
+module "regional_config_data" {
+  source = "../../modules/regional-config-data"
+
+  providers = {
+    aws = aws
+  }
+}
+
 module "compliant_account" {
   source = "../../modules/compliant-account"
   providers = {
     aws = aws
   }
 
-  logs_destination_bucket_arn = "arn:aws:s3:::ithought-aws-logs"
-  aws_config_bucket_name      = "ithought-aws-config"
-}
-
-import {
-  to = module.compliant_account.aws_iam_role.terraform
-  id = "terraform"
-}
-
-import {
-  to = module.compliant_account.aws_iam_role_policy_attachment.terraform_gets_administrator
-  id = "terraform/arn:aws:iam::aws:policy/AdministratorAccess"
+  logs_destination_bucket_arn = module.regional_config_data.logs_destination_bucket_arn
+  aws_config_bucket_name      = module.regional_config_data.aws_config_bucket_name
 }

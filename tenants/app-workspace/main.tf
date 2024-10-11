@@ -34,3 +34,10 @@ provider "aws" {
   }
 }
 
+module "regional_config_data" {
+  source = "../../modules/regional-config-data"
+
+  providers = {
+    aws = aws
+  }
+}
