@@ -21,6 +21,8 @@ resource "aws_iam_role" "task_role" {
   path = "/service-role/"
 
   assume_role_policy = data.aws_iam_policy_document.ecs_assume_role.json
+
+  tags = local.tags
 }
 
 resource "aws_iam_role" "task_execution_role" {
@@ -28,6 +30,8 @@ resource "aws_iam_role" "task_execution_role" {
   path = "/service-role/"
 
   assume_role_policy = data.aws_iam_policy_document.ecs_assume_role.json
+
+  tags = local.tags
 }
 
 resource "aws_iam_role_policy_attachment" "task_execution_role_gets_use_ecr" {
@@ -42,6 +46,8 @@ resource "aws_iam_role_policy_attachment" "task_execution_role_gets_pull_artifac
 
 data "aws_iam_policy" "task_execution_role" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+
+  tags = local.tags
 }
 
 resource "aws_iam_role_policy" "task_execution_role" {

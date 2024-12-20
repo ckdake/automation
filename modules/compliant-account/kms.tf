@@ -3,6 +3,8 @@ resource "aws_kms_key" "management" {
 
   description         = "This key is used to encrypt everything management related in this account"
   enable_key_rotation = true
+
+  tags = local.tags
 }
 
 resource "aws_kms_alias" "management" {

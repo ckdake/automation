@@ -17,6 +17,8 @@ resource "aws_iam_role" "aws_support_access" {
     ]
 }
 EOF
+
+  tags = local.tags
 }
 
 # See https://github.com/z0ph/MAMIP/blob/master/policies/AWSSupportAccess

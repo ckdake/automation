@@ -1,15 +1,17 @@
 resource "aws_default_network_acl" "vpc" {
   default_network_acl_id = aws_vpc.vpc.default_network_acl_id
-  tags = {
+
+  tags = merge(local.tags, {
     Name = "tenant-vpc-default-acl"
-  }
+  })
 }
 
 resource "aws_network_acl" "public" {
   vpc_id = aws_vpc.vpc.id
-  tags = {
+
+  tags = merge(local.tags, {
     Name = "public-subnet-acl"
-  }
+  })
 }
 
 resource "aws_network_acl_rule" "public_inbound_100" {

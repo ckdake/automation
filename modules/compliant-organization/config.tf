@@ -5,6 +5,9 @@ locals {
 module "aws_config_bucket" {
   source = "../../modules/s3-bucket"
 
+  application = var.application
+  environment = var.environment
+
   bucket_name         = local.aws_config_bucket_name
   kms_key_arn         = aws_kms_key.management.arn
   logging_bucket_name = local.s3_access_log_bucket_name
@@ -68,6 +71,8 @@ resource "aws_iam_role" "aws_config_aggregator" {
     ]
 }
 EOP
+
+  tags = local.tags
 }
 
 resource "aws_iam_role_policy_attachment" "aws_config_aggregator" {
@@ -83,4 +88,6 @@ resource "aws_config_configuration_aggregator" "organization" {
     all_regions = true
     role_arn    = aws_iam_role.aws_config_aggregator.arn
   }
+
+  tags = local.tags
 }

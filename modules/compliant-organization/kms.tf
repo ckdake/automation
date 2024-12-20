@@ -156,6 +156,8 @@ resource "aws_kms_key" "management" {
     ]
 }
 EOP
+
+  tags = local.tags
 }
 
 resource "aws_kms_alias" "management" {

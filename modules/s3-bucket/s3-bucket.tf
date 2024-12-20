@@ -22,6 +22,8 @@ EOP1
 
 resource "aws_s3_bucket" "bucket" {
   bucket = var.bucket_name
+
+  tags = local.tags
 }
 
 resource "aws_s3_bucket_policy" "bucket" {
@@ -77,6 +79,12 @@ resource "aws_s3_bucket_versioning" "bucket" {
   bucket = aws_s3_bucket.bucket.id
   versioning_configuration {
     status = "Enabled"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      versioning_configuration # Some buckets have this disabled for $ savings. Let them be for now.
+    ]
   }
 }
 

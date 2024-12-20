@@ -11,9 +11,12 @@ data "aws_iam_policy_document" "administrator_assume_role_policy" {
 }
 
 resource "aws_iam_role" "administrator" {
-  name               = "administrator"
-  path               = "/person-role/"
+  name = "administrator"
+  path = "/person-role/"
+
   assume_role_policy = data.aws_iam_policy_document.administrator_assume_role_policy.json
+
+  tags = local.tags
 }
 
 resource "aws_iam_role_policy_attachment" "administrator_gets_administrator" {
@@ -59,6 +62,8 @@ resource "aws_iam_policy" "admin_assumption" {
 	"Version": "2012-10-17"
 }
 EOP
+
+  tags = local.tags
 }
 
 resource "aws_iam_group_policy_attachment" "admin_assumption" {
@@ -83,6 +88,8 @@ resource "aws_iam_policy" "terraform_assumption" {
 	"Version": "2012-10-17"
 }
 EOP
+
+  tags = local.tags
 }
 
 resource "aws_iam_group_policy_attachment" "terraform_assumption" {
@@ -95,6 +102,8 @@ resource "aws_iam_user" "ckdake" {
   name          = "ckdake"
   force_destroy = true
   depends_on    = [aws_iam_group.administrators]
+
+  tags = local.tags
 }
 
 resource "aws_iam_user_login_profile" "ckdake" {

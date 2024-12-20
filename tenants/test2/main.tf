@@ -44,9 +44,13 @@ module "regional_config_data" {
 
 module "compliant_account" {
   source = "../../modules/compliant-account"
+
   providers = {
     aws = aws
   }
+
+  application = local.application
+  environment = local.environment
 
   logs_destination_bucket_arn = module.regional_config_data.logs_destination_bucket_arn
   aws_config_bucket_name      = module.regional_config_data.aws_config_bucket_name

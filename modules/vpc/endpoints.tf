@@ -17,6 +17,8 @@ resource "aws_vpc_endpoint" "s3" {
   ]
 }
 EOP
+
+  tags = local.tags
 }
 
 resource "aws_vpc_endpoint" "dynamodb" {
@@ -38,4 +40,6 @@ resource "aws_vpc_endpoint" "dynamodb" {
   ]
 }
 EOP
+
+  tags = local.tags
 }

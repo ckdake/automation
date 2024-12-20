@@ -5,7 +5,9 @@ resource "aws_organizations_organization" "root" {
     "cloudtrail.amazonaws.com",
     "config.amazonaws.com",
     "health.amazonaws.com",
+    "member.org.stacksets.cloudformation.amazonaws.com",
     "securityhub.amazonaws.com",
+    "ssm.amazonaws.com",
     "sso.amazonaws.com",
     "storage-lens.s3.amazonaws.com"
   ]

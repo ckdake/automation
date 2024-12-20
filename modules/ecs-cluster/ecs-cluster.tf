@@ -5,4 +5,6 @@ resource "aws_ecs_cluster" "ecs_cluster" {
     name  = "containerInsights"
     value = "enabled"
   }
+
+  tags = local.tags
 }

@@ -45,6 +45,8 @@ resource "aws_budgets_budget" "account_auto_adjust" {
     use_blended                = false
   }
 
+  tags = local.tags
+
   lifecycle {
     ignore_changes = [
       limit_amount

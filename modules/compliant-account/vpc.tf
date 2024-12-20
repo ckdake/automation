@@ -5,9 +5,9 @@ data "aws_availability_zones" "available" {
 }
 
 resource "aws_default_vpc" "default" {
-  tags = {
+  tags = merge(local.tags, {
     Name = "default-vpc"
-  }
+  })
 }
 
 resource "aws_flow_log" "default" {
@@ -15,28 +15,35 @@ resource "aws_flow_log" "default" {
   log_destination_type = "s3"
   traffic_type         = "ALL"
   vpc_id               = aws_default_vpc.default.id
+
+  tags = local.tags
 }
 
 # Empty security group disables all ingress and egress traffic
 resource "aws_default_security_group" "default" {
   vpc_id = aws_default_vpc.default.id
+
+  tags = local.tags
 }
 
 # Empty route table disables default routes 
 resource "aws_default_route_table" "default" {
   default_route_table_id = aws_default_vpc.default.default_route_table_id
+
+  tags = local.tags
 }
 
 # Empty ACL blocks all traffic on default vpc acl
 resource "aws_default_network_acl" "default" {
   default_network_acl_id = aws_default_vpc.default.default_network_acl_id
-  tags = {
-    Name = "default-vpc-default-acl"
-  }
 
   subnet_ids = [
     for default_subnet in aws_default_subnet.default_subnet : default_subnet.id
   ]
+
+  tags = merge(local.tags, {
+    Name = "default-vpc-default-acl"
+  })
 }
 
 # Disable default addressing in default subnets, and name them
@@ -47,9 +54,9 @@ resource "aws_default_subnet" "default_subnet" {
   availability_zone       = element(data.aws_availability_zones.available.names[*], count.index)
   map_public_ip_on_launch = false
 
-  tags = {
+  tags = merge(local.tags, {
     Name = "default-subnet"
-  }
+  })
 }
 
 resource "aws_ebs_default_kms_key" "aws_ebs_default_kms_key" {

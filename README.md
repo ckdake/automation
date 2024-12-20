@@ -69,8 +69,8 @@ TF_VAR_config_value_two=test2 terraform apply
 
 ### TODO
 
+- [ ] security log archive prod OU, security tools OU, workloads OU
 - [ ] implement "automation:prod" pattern of docker container to run jobs
-- [ ] implement Application/Environment tagging, including in modules
 - [ ] implement SSO into AWS from somewhere
 - [ ] implement SSM ssh pattern
 - [ ] Sample-app

@@ -2,6 +2,8 @@ resource "aws_security_group" "ecs_service" {
   vpc_id      = var.vpc_id
   name        = "${var.service_name}-ecs-security-group"
   description = "connectivity for the ${var.service_name} service"
+
+  tags = local.tags
 }
 
 resource "aws_vpc_security_group_egress_rule" "service_all_outbound_443" {
@@ -11,6 +13,8 @@ resource "aws_vpc_security_group_egress_rule" "service_all_outbound_443" {
   from_port   = 443
   ip_protocol = "tcp"
   to_port     = 443
+
+  tags = local.tags
 }
 
 resource "aws_vpc_security_group_ingress_rule" "service_all_inbound_8080" {
@@ -20,11 +24,15 @@ resource "aws_vpc_security_group_ingress_rule" "service_all_inbound_8080" {
   from_port   = 8080
   ip_protocol = "tcp"
   to_port     = 8080
+
+  tags = local.tags
 }
 
 resource "aws_cloudwatch_log_group" "service" {
   name              = var.service_name
   retention_in_days = 365
+
+  tags = local.tags
 }
 
 resource "aws_ecs_task_definition" "task" {
@@ -85,6 +93,8 @@ resource "aws_ecs_task_definition" "task" {
   volume {
     name = "tmp"
   }
+
+  tags = local.tags
 }
 
 resource "aws_ecs_service" "service" {
@@ -114,6 +124,8 @@ resource "aws_ecs_service" "service" {
     enable   = true
     rollback = true
   }
+
+  tags = local.tags
 
   depends_on = [
     aws_iam_role_policy.task_execution_role

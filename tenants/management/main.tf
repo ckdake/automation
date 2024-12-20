@@ -51,18 +51,26 @@ provider "aws" {
 
 module "compliant_organization" {
   source = "../../modules/compliant-organization"
+
   providers = {
     aws = aws
   }
+
+  application = local.application
+  environment = local.environment
 
   organization_name = "ithought"
 }
 
 module "compliant_account" {
   source = "../../modules/compliant-account"
+
   providers = {
     aws = aws
   }
+
+  application = local.application
+  environment = local.environment
 
   administrator_role_arn      = aws_iam_role.administrator.arn
   management_kms_key_arn      = module.compliant_organization.management_kms_key_arn
@@ -78,6 +86,9 @@ module "global_config" {
   providers = {
     aws = aws
   }
+
+  application = local.application
+  environment = local.environment
 }
 
 module "regional_config_primary" {
@@ -88,6 +99,9 @@ module "regional_config_primary" {
   providers = {
     aws = aws
   }
+
+  application = local.application
+  environment = local.environment
 }
 
 module "regional_config_secondary" {
@@ -98,6 +112,9 @@ module "regional_config_secondary" {
   providers = {
     aws = aws.secondary
   }
+
+  application = local.application
+  environment = local.environment
 }
 
 module "regional_config_data" {

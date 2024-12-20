@@ -5,9 +5,13 @@ locals {
 
 module "s3_access_log_bucket" {
   source = "../../modules/s3-bucket"
+
   providers = {
     aws = aws
   }
+
+  application = var.application
+  environment = var.environment
 
   bucket_name         = local.s3_access_log_bucket_name
   logging_bucket_name = local.s3_access_log_bucket_name
@@ -37,9 +41,13 @@ EOP
 
 module "aws_logs" {
   source = "../../modules/s3-bucket"
+
   providers = {
     aws = aws
   }
+
+  application = var.application
+  environment = var.environment
 
   bucket_name         = local.aws_logs_bucket_name
   logging_bucket_name = local.s3_access_log_bucket_name

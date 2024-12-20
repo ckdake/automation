@@ -12,4 +12,13 @@ locals {
     try(data.terraform_remote_state.self.outputs.config_value_two, null),
     "defaultB"
   )
+
+  application = "app-workspace"
+  environment = "development"
+
+  tags = {
+    Application = local.application
+    Environment = local.environment
+    ManagedBy   = "terraform"
+  }
 }

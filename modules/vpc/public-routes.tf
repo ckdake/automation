@@ -1,17 +1,17 @@
 resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = aws_vpc.vpc.id
 
-  tags = {
+  tags = merge(local.tags, {
     "Name" = "${var.vpc_name}-internet-gateway"
-  }
+  })
 }
 
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.vpc.id
 
-  tags = {
+  tags = merge(local.tags, {
     Name = "public"
-  }
+  })
 }
 
 resource "aws_route" "public_default" {

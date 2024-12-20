@@ -10,6 +10,8 @@ resource "aws_ecr_repository" "repository" {
   image_scanning_configuration {
     scan_on_push = true
   }
+
+  tags = local.tags
 }
 
 # TODO(ckdake): replace principal * arn with arn of roles for running service
@@ -95,6 +97,7 @@ resource "aws_iam_policy" "pull_artifacts" {
   name        = "ecr-pull-${var.repository_name}-artifacts"
   description = "allows pulling all the ${var.repository_name} artifacts"
   path        = "/service-role/"
+
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -112,12 +115,15 @@ resource "aws_iam_policy" "pull_artifacts" {
       }
     ]
   })
+
+  tags = local.tags
 }
 
 resource "aws_iam_policy" "push_artifacts" {
   name        = "ecr-push-${var.repository_name}-artifacts"
   description = "allows pushing all the ${var.repository_name} artifacts"
   path        = "/service-role/"
+
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -140,12 +146,15 @@ resource "aws_iam_policy" "push_artifacts" {
       }
     ]
   })
+
+  tags = local.tags
 }
 
 resource "aws_iam_policy" "use_ecr" {
   name        = "use-ecr"
   description = "allows a role to use ECR. requires repo permissions separately"
   path        = "/service-role/"
+
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -161,4 +170,6 @@ resource "aws_iam_policy" "use_ecr" {
       }
     ]
   })
+
+  tags = local.tags
 }

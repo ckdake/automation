@@ -6,9 +6,9 @@ resource "aws_subnet" "public" {
   availability_zone       = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = false
 
-  tags = {
+  tags = merge(local.tags, {
     Name = "public-subnet"
-  }
+  })
 
   timeouts {
     delete = "60s"

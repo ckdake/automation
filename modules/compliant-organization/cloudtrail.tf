@@ -20,6 +20,8 @@ resource "aws_iam_role" "cloudtrail_to_cloudwatch" {
   path = "/service-role/"
 
   assume_role_policy = data.aws_iam_policy_document.assume_cloudtrail_to_cloudwatch.json
+
+  tags = local.tags
 }
 
 resource "aws_iam_policy" "allows_cloudtrail_to_cloudwatch" {
@@ -56,6 +58,8 @@ resource "aws_iam_policy" "allows_cloudtrail_to_cloudwatch" {
     ]
 }
 EOF
+
+  tags = local.tags
 }
 
 resource "aws_iam_role_policy_attachment" "allows_cloudtrail_to_cloudwatch" {
@@ -66,10 +70,15 @@ resource "aws_iam_role_policy_attachment" "allows_cloudtrail_to_cloudwatch" {
 resource "aws_cloudwatch_log_group" "org_cloudtrail" {
   retention_in_days = 365
   name              = "${var.organization_name}-org-cloudtrail"
+
+  tags = local.tags
 }
 
 module "aws_cloudtrail_bucket" {
   source = "../../modules/s3-bucket"
+
+  application = var.application
+  environment = var.environment
 
   bucket_name         = local.aws_cloudtrail_bucket_name
   logging_bucket_name = local.s3_access_log_bucket_name
@@ -171,4 +180,6 @@ resource "aws_cloudtrail" "cloudtrail" {
       values = ["arn:aws:s3"]
     }
   }
+
+  tags = local.tags
 }

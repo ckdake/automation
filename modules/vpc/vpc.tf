@@ -4,17 +4,21 @@ resource "aws_vpc" "vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
 
-  tags = {
+  tags = merge(local.tags, {
     Name = var.vpc_name
-  }
+  })
 }
 
 resource "aws_default_security_group" "vpc" {
   vpc_id = aws_vpc.vpc.id
+
+  tags = local.tags
 }
 
 resource "aws_default_route_table" "vpc" {
   default_route_table_id = aws_vpc.vpc.default_route_table_id
+
+  tags = local.tags
 }
 
 resource "aws_flow_log" "vpc" {
@@ -22,5 +26,7 @@ resource "aws_flow_log" "vpc" {
   log_destination_type = "s3"
   traffic_type         = "ALL"
   vpc_id               = aws_vpc.vpc.id
+
+  tags = local.tags
 }
 

@@ -69,6 +69,8 @@ resource "aws_sns_topic" "cis_benchmark_alarms" {
   ]
 }
 EOP
+
+  tags = local.tags
 }
 
 resource "aws_sns_topic_subscription" "topic_email_subscription" {
@@ -105,6 +107,8 @@ resource "aws_cloudwatch_metric_alarm" "aws_cis_1_1_avoid_the_use_of_root_accoun
   alarm_actions             = [aws_sns_topic.cis_benchmark_alarms.arn]
   threshold                 = 1
   treat_missing_data        = "notBreaching"
+
+  tags = local.tags
 }
 
 # 3.1 – Ensure a log metric filter and alarm exist for unauthorized API calls 
@@ -130,10 +134,12 @@ resource "aws_cloudwatch_metric_alarm" "unauthorized_api_calls" {
   threshold           = "1"
   alarm_description   = "Monitoring unauthorized API calls will help reveal application errors and may reduce time to detect malicious activity."
   alarm_actions = [
-    aws_sns_topic.cis_benchmark_alarms.arn
+    # aws_sns_topic.cis_benchmark_alarms.arn # TODO: this is flaky thanks to AWS, don't enable for now to save noise.
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.2 – Ensure a log metric filter and alarm exist for AWS Management Console sign-in without MFA 
@@ -163,6 +169,8 @@ resource "aws_cloudwatch_metric_alarm" "no_mfa_console_signin" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.3 – Ensure a log metric filter and alarm exist for usage of "root" account 
@@ -192,6 +200,8 @@ resource "aws_cloudwatch_metric_alarm" "root_usage" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.4 – Ensure a log metric filter and alarm exist for IAM policy changes 
@@ -221,6 +231,8 @@ resource "aws_cloudwatch_metric_alarm" "iam_changes" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.5 – Ensure a log metric filter and alarm exist for CloudTrail configuration changes
@@ -250,6 +262,8 @@ resource "aws_cloudwatch_metric_alarm" "cloudtrail_cfg_changes" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.6 – Ensure a log metric filter and alarm exist for AWS Management Console authentication failures 
@@ -279,6 +293,8 @@ resource "aws_cloudwatch_metric_alarm" "console_signin_failures" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.7 – Ensure a log metric filter and alarm exist for disabling or scheduled deletion of customer created CMKs 
@@ -308,6 +324,8 @@ resource "aws_cloudwatch_metric_alarm" "disable_or_delete_cmk" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.8 – Ensure a log metric filter and alarm exist for S3 bucket policy changes 
@@ -337,6 +355,8 @@ resource "aws_cloudwatch_metric_alarm" "s3_bucket_policy_changes" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.9 – Ensure a log metric filter and alarm exist for AWS Config configuration changes 
@@ -367,6 +387,8 @@ resource "aws_cloudwatch_metric_alarm" "aws_config_changes" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.10 – Ensure a log metric filter and alarm exist for security group changes 
@@ -396,6 +418,8 @@ resource "aws_cloudwatch_metric_alarm" "security_group_changes" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.11 – Ensure a log metric filter and alarm exist for changes to Network Access Control Lists (NACL) 
@@ -425,6 +449,8 @@ resource "aws_cloudwatch_metric_alarm" "nacl_changes" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 resource "aws_cloudwatch_log_metric_filter" "network_gw_changes" {
@@ -455,6 +481,8 @@ resource "aws_cloudwatch_metric_alarm" "network_gw_changes" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 resource "aws_cloudwatch_log_metric_filter" "route_table_changes" {
@@ -484,6 +512,8 @@ resource "aws_cloudwatch_metric_alarm" "route_table_changes" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }
 
 # 3.14 – Ensure a log metric filter and alarm exist for VPC changes 
@@ -513,4 +543,6 @@ resource "aws_cloudwatch_metric_alarm" "vpc_changes" {
   ]
   treat_missing_data        = "notBreaching"
   insufficient_data_actions = []
+
+  tags = local.tags
 }

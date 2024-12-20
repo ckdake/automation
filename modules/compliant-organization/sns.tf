@@ -16,4 +16,6 @@ resource "aws_iam_role" "sns_delivery_status_to_cloudwatch" {
   path = "/service-role/"
 
   assume_role_policy = data.aws_iam_policy_document.assume_sns_delivery_status_to_cloudwatch.json
+
+  tags = local.tags
 }
