@@ -4,9 +4,9 @@
 	"features": {
 		"ghcr.io/devcontainers/features/terraform:1": {
 			"installTFsec": false,
-			"version": "1.7.3",
-			"tflint": "0.50.3",
-			"terragrunt": "0.55.3"
+			"version": "1.10.3",
+			"tflint": "0.54.0",
+			"terragrunt": "0.71.1"
 		},
 		"ghcr.io/devcontainers/features/aws-cli:1": {
 			"version": "latest"

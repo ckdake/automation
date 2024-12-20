@@ -12,7 +12,7 @@ curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/
 cp -R "/workspaces/automation/.devcontainer/config/.aws" ~/.aws
 
 # Install Trivy
-curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.52.0
+curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.58.0
 
 # Terraform config for plugin caching
 cp /workspaces/automation/.devcontainer/dot-terraformrc ~/.terraformrc
