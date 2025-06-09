@@ -29,13 +29,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Get aws credentials for ECR push
-        uses: aws-actions/configure-aws-credentials@v4.0.2
+        uses: aws-actions/configure-aws-credentials@v4.1.0
         with:
           role-to-assume: ${{ env.GITHUB_OIDC_ROLE }}
           role-session-name: ${{ env.AWS_ROLE_SESSION_NAME }}
           aws-region: ${{ env.AWS_REGION }}
       - name: Login to ECR
-        uses: docker/login-action@v3.3.0
+        uses: docker/login-action@v3.4.0
         with:
           registry: ${{ env.REGISTRY }}
       - name: Build and Push
