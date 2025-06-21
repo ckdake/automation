@@ -4,10 +4,10 @@ data "terraform_remote_state" "self" {
   workspace = terraform.workspace
 
   config = {
-    bucket         = "ithought-terraform"
-    key            = "app-workspace.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "terraform-lock"
+    bucket       = "ithought-terraform"
+    key          = "app-workspace.tfstate"
+    region       = "us-east-1"
+    use_lockfile = true
     assume_role = {
       role_arn = "arn:aws:iam::053562908965:role/service-role/terraform"
     }

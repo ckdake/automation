@@ -4,7 +4,7 @@
 	"features": {
 		"ghcr.io/devcontainers/features/terraform:1": {
 			"installTFsec": false,
-			"version": "1.10.3",
+			"version": "1.12.2",
 			"tflint": "0.54.0",
 			"terragrunt": "0.71.1"
 		},

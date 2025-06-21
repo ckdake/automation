@@ -2,17 +2,17 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.99.1"
+      version = "~> 6.0.0"
     }
   }
 
-  required_version = ">= 1.10.3"
+  required_version = ">= 1.12.2"
 
   backend "s3" {
-    bucket         = "ithought-terraform"
-    key            = "test2.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "terraform-lock"
+    bucket       = "ithought-terraform"
+    key          = "test2.tfstate"
+    region       = "us-east-1"
+    use_lockfile = true
     assume_role = {
       role_arn = "arn:aws:iam::053562908965:role/service-role/terraform"
     }
