@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Get aws credentials for ECR push
         uses: aws-actions/configure-aws-credentials@v4.2.1
         with:
