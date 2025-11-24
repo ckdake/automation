@@ -8,7 +8,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: trivy
         uses: aquasecurity/trivy-action@master
         with:
